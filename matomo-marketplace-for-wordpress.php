@@ -36,6 +36,24 @@ function matomo_mfw_tgmpa_table_data_item( $table_data ) {
 
 add_action( 'tgmpa_register', 'matomo_mfw_register_required_plugins' );
 
+add_filter('http_request_args', function ($parsed_args, $url) {
+	if (!empty($url) && is_string($url) && strpos($url, 'https://plugins.matomo.org') === 0) {
+
+		if (is_plugin_active('matomo/matomo.php')) {
+			$matomo_settings = WpMatomo::$settings;
+			$license_key = $matomo_settings->get_license_key();
+			// for premium features we may need to change it to POST so we can set the access token
+
+			if (!empty($license_key)) {
+				$parsed_args['method'] = 'POST';
+				$parsed_args['body'] = array('access_token' => $license_key);
+			}
+		}
+	}
+
+	return $parsed_args;
+});
+
 function matomo_mfw_register_required_plugins() {
 
 	$domain = 'https://plugins.matomo.org';
@@ -64,10 +82,8 @@ function matomo_mfw_register_required_plugins() {
 	if (!empty($result['plugins'])) {
 		foreach ($result['plugins'] as $plugin) {
 			if (is_plugin_active($plugin['name'] . '/' . $plugin['name'] . '.php')) {
-				continue; // we don't want to handle updates through this for now since we can't post token auth for premium features
+				continue;
 			}
-
-			// todo how can we add post parameters for authentication for premium features? => we can't ... it doesn't allow to do it
 
 			$download_url = $base_url. '/' . rawurlencode($plugin['name']) . '/download/latest';
 
