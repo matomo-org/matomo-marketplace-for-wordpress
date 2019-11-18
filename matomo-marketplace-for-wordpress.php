@@ -52,7 +52,7 @@ add_filter('http_request_args', function ($parsed_args, $url) {
 	}
 
 	return $parsed_args;
-});
+}, 10);
 
 function matomo_mfw_register_required_plugins() {
 
