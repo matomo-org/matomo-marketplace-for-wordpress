@@ -24,21 +24,31 @@ if ( ! defined( 'MATOMO_MARKETPLACE_ANALYTICS_FILE' ) ) {
 	define( 'MATOMO_MARKETPLACE_ANALYTICS_FILE', __FILE__ );
 }
 
+define('MATOMO_MARKETPLACE_SUBMENU_SLUG', 'matomo-install-plugins');
+
 require 'vendor/autoload.php';
 
-add_filter( 'tgmpa_table_data_item', 'matomo_mfw_tgmpa_table_data_item' );
+add_filter( 'tgmpa_table_data_item', 'matomo_mfw_tgmpa_table_data_item', 10, 2 );
 
-function matomo_mfw_tgmpa_table_data_item( $table_data ) {
+function matomo_mfw_tgmpa_table_data_item( $table_data, $plugin ) {
 	$table_data['source'] = 'Matomo Marketplace';
-	$table_data['type'] = 'Matomo Plugin';
+	$table_data['type'] = $plugin['description'];
 	return $table_data;
+}
+
+add_filter( 'tgmpa_table_columns', 'matomo_mfw_tgmpa_table_columns' );
+
+function matomo_mfw_tgmpa_table_columns( $columns ) {
+	$columns['type'] = 'Description';
+	unset($columns['source']);
+	return $columns;
 }
 
 add_action( 'tgmpa_register', 'matomo_mfw_register_required_plugins' );
 
 add_filter('http_request_args', function ($parsed_args, $url) {
 	if (!empty($url) && is_string($url) && strpos($url, 'https://plugins.matomo.org') === 0) {
-		if (is_plugin_active('matomo/matomo.php')) {
+		if (is_plugin_active('matomo/matomo.php') && !empty($parsed_args['method']) && $parsed_args['method'] === 'GET') {
 			$matomo_settings = WpMatomo::$settings;
 			$license_key = $matomo_settings->get_license_key();
 			// for premium features we may need to change it to POST so we can set the access token
@@ -53,48 +63,55 @@ add_filter('http_request_args', function ($parsed_args, $url) {
 	return $parsed_args;
 }, 10, 2);
 
-function matomo_mfw_register_required_plugins() {
+function matomo_mfw_register_required_plugins () {
 
-	$domain = 'https://plugins.matomo.org';
-	$base_url = $domain . '/api/2.0/plugins';
 	$plugins = array();
 
-	$matomo_settings = WpMatomo::$settings;
-	$license_key = $matomo_settings->get_license_key();
+	if (is_admin()
+	    && !empty($_SERVER['REQUEST_URI'])
+	    && strpos($_SERVER['REQUEST_URI'], MATOMO_MARKETPLACE_SUBMENU_SLUG) !== false) {
+		// we don't want to fetch marketplace on every admin page... only if we are on that specific page...
 
-	$params = array(
-		'method'      => 'POST',
-		'timeout'     => 60,
-		'redirection' => 3,
-	);
+		$domain = 'https://plugins.matomo.org';
+		$base_url = $domain . '/api/2.0/plugins';
 
-	if (!empty($license_key)) {
-		$params['body'] = array('access_token' => $license_key);
-	}
+		$params = array(
+			'method'      => 'GET',
+			'timeout'     => 60,
+			'redirection' => 3,
+		);
 
-	$result = wp_remote_post($base_url, $params	);
-	if (!empty($result['body'])) {
-		$result = json_decode($result['body'], true);
-	}
-
-
-	if (!empty($result['plugins'])) {
-		foreach ($result['plugins'] as $plugin) {
-			$download_url = $base_url. '/' . rawurlencode($plugin['name']) . '/download/latest';
-
-			$plugins[] = array(
-				'name'               => $plugin['displayName'], // The plugin name.
-				'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
-				'source'             => $download_url, // The plugin source.
-				'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-				'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-				'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-				'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-				'external_url'       => $domain . '/' . rawurlencode($plugin['name']), // If set, overrides default API URL and points to an external URL.
-				'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
-			);
+		$result = wp_remote_post($base_url, $params	);
+		if (!empty($result['body'])) {
+			$result = json_decode($result['body'], true);
 		}
+
+
+		if (!empty($result['plugins'])) {
+			foreach ($result['plugins'] as $plugin) {
+				if (empty($plugin['isDownloadable'])) {
+					continue;
+				}
+
+				$download_url = $base_url. '/' . rawurlencode($plugin['name']) . '/download/latest';
+
+				$plugins[] = array(
+					'name'               => $plugin['displayName'], // The plugin name.
+					'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
+					'description'        => $plugin['description'], // The plugin slug (typically the folder name).
+					'source'             => $download_url, // The plugin source.
+					'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+					'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+					'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+					'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+					'external_url'       => $domain . '/' . rawurlencode($plugin['name']), // If set, overrides default API URL and points to an external URL.
+					'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+				);
+			}
+		}
+
 	}
+
 
 	/*
 	 * Array of configuration settings. Amend each line as needed.
@@ -108,7 +125,7 @@ function matomo_mfw_register_required_plugins() {
 	$config = array(
 		'id'           => 'matomo-marketplace-for-wordpress',                 // Unique ID for hashing notices for multiple instances of TGMPA.
 		'default_path' => '',                      // Default absolute path to bundled plugins.
-		'menu'         => 'tgmpa-install-plugins', // Menu slug.
+		'menu'         => MATOMO_MARKETPLACE_SUBMENU_SLUG, // Menu slug.
 		'parent_slug'  => 'matomo',            // Parent menu slug.
 		'capability'   => \WpMatomo\Capabilities::KEY_SUPERUSER,    // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
 		'has_notices'  => false,                    // Show admin notices or not.
@@ -116,10 +133,13 @@ function matomo_mfw_register_required_plugins() {
 		'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
 		'is_automatic' => false,                   // Automatically activate plugins after installation or not.
 		'message'      => '',                      // Message to output right before the plugins table.
+		'strings'      => array(
+			'page_title'   => __( 'Install Plugins from the Matomo Marketplace', 'matomo-marketplace-for-wordpress' ),
+			'return'       => __( 'Return to Matomo Marketplace Plugins Installer', 'matomo-marketplace-for-wordpress' ),
+		)
 
 		/*
 		'strings'      => array(
-			'page_title'                      => __( 'Install Required Plugins', 'matomo-marketplace-for-wordpress' ),
 			'menu_title'                      => __( 'Install Plugins', 'matomo-marketplace-for-wordpress' ),
 			/* translators: %s: plugin name. * /
 			'installing'                      => __( 'Installing Plugin: %s', 'matomo-marketplace-for-wordpress' ),
@@ -196,6 +216,15 @@ function matomo_mfw_register_required_plugins() {
 	);
 
 	tgmpa( $plugins, $config );
+
+	if (empty($plugins)) {
+		add_action( 'admin_menu', function () {
+			// still ensure we show link to admin when not on install page (and no plugins are there)
+			/** @var \TGM_Plugin_Activation $tgmpa */
+			$tgmpa = $GLOBALS['tgmpa'];
+			$tgmpa->admin_menu();
+		} );
+	}
 }
 
 
