@@ -4,9 +4,10 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0d7e800703993e6aa7f4d5d698867a4b
+class ComposerStaticInit4f11558b35ee606e241e86b6766a0808
 {
     public static $files = array (
+        'a5f882d89ab791a139cd2d37e50cdd80' => __DIR__ . '/..' . '/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php',
         'eb560c198217526cfde8ceb63ae508de' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v4p8.php',
     );
 

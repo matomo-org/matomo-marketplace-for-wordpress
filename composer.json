@@ -1,5 +1,6 @@
 {
   "require": {
-    "yahnis-elsts/plugin-update-checker": "4.*"
+    "yahnis-elsts/plugin-update-checker": "4.*",
+    "tgmpa/tgm-plugin-activation": "*"
   }
 }
