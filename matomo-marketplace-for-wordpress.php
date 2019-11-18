@@ -38,7 +38,6 @@ add_action( 'tgmpa_register', 'matomo_mfw_register_required_plugins' );
 
 add_filter('http_request_args', function ($parsed_args, $url) {
 	if (!empty($url) && is_string($url) && strpos($url, 'https://plugins.matomo.org') === 0) {
-
 		if (is_plugin_active('matomo/matomo.php')) {
 			$matomo_settings = WpMatomo::$settings;
 			$license_key = $matomo_settings->get_license_key();
@@ -52,7 +51,7 @@ add_filter('http_request_args', function ($parsed_args, $url) {
 	}
 
 	return $parsed_args;
-}, 10);
+}, 10, 2);
 
 function matomo_mfw_register_required_plugins() {
 
@@ -81,10 +80,6 @@ function matomo_mfw_register_required_plugins() {
 
 	if (!empty($result['plugins'])) {
 		foreach ($result['plugins'] as $plugin) {
-			if (is_plugin_active($plugin['name'] . '/' . $plugin['name'] . '.php')) {
-				continue;
-			}
-
 			$download_url = $base_url. '/' . rawurlencode($plugin['name']) . '/download/latest';
 
 			$plugins[] = array(
