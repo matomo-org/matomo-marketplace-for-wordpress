@@ -64,6 +64,7 @@ add_filter('http_request_args', function ($parsed_args, $url) {
 }, 10, 2);
 
 function matomo_mfw_register_required_plugins () {
+	global $wpdb;
 
 	$plugins = array();
 
@@ -72,8 +73,22 @@ function matomo_mfw_register_required_plugins () {
 	    && strpos($_SERVER['REQUEST_URI'], MATOMO_MARKETPLACE_SUBMENU_SLUG) !== false) {
 		// we don't want to fetch marketplace on every admin page... only if we are on that specific page...
 
+		// we do not want to bootstrap entire Matomo here just to be on the safe side and not break anything
+		// when installing/updating etc
+		include plugin_dir_path(MATOMO_ANALYTICS_FILE) . 'app/core/Version.php';
+		$num_blogs          = 1;
+		if ( function_exists( 'get_blog_count' ) ) {
+			$num_blogs = get_blog_count();
+		}
+		$params = array(
+			'php' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
+			'matomo' => \Piwik\Version::VERSION,
+			'mysql' => $wpdb->db_version(),
+			'num_websites' => $num_blogs
+		);
+
 		$domain = 'https://plugins.matomo.org';
-		$base_url = $domain . '/api/2.0/plugins';
+		$base_url = $domain . '/api/2.0/wordpress/plugins?' . http_build_query($params);
 
 		$params = array(
 			'method'      => 'GET',
@@ -85,7 +100,6 @@ function matomo_mfw_register_required_plugins () {
 		if (!empty($result['body'])) {
 			$result = json_decode($result['body'], true);
 		}
-
 
 		if (!empty($result['plugins'])) {
 			foreach ($result['plugins'] as $plugin) {
@@ -236,11 +250,12 @@ add_action('init', function () {
 	require 'vendor/autoload.php';
 	$matomoSettings = WpMatomo::$settings;
 	$license_key = $matomoSettings->get_license_key();
-	$base_url    = 'https://plugins.matomo.org/api/2.0/wordpressUpdateCheck?plugin=';
 	foreach ( $matomoMarketplacePlugins as $plugin_file ) {
 		$plugin_name = dirname( plugin_basename($plugin_file) );
+
+		$update_check_url = 'https://plugins.matomo.org/api/2.0/wordpress/plugins/'.rawurlencode($plugin_name).'/checkUpdate';
 		$instance    = \Puc_v4_Factory::buildUpdateChecker(
-			$base_url . urlencode($plugin_name),
+			$update_check_url,
 			$plugin_file,
 			$plugin_name
 		);
