@@ -14,14 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 class MatomoMarketplaceTgmpa {
 
 	public function customise_table_data ($table_data, $plugin) {
-		$table_data['source'] = 'Matomo Marketplace';
-		$table_data['type'] = $plugin['description'];
+		$table_data['type'] = $plugin['owner'];
+		$table_data['source'] = $plugin['description'];
 		return $table_data;
 	}
 
 	public function customise_table_columns ($columns) {
-		$columns['type'] = 'Description';
-		unset($columns['source']);
+		$columns['source'] = 'Description';
+		$columns['type'] = 'Developer';
 		return $columns;
 	}
 

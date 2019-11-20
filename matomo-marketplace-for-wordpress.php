@@ -24,6 +24,7 @@ if ( ! defined( 'MATOMO_MARKETPLACE_ENDPOINT' ) ) {
 	define( 'MATOMO_MARKETPLACE_ENDPOINT', 'https://plugins.matomo.org/api/2.0/' );
 }
 if (!defined('MATOMO_MARKETPLACE_SUBMENU_SLUG')) {
+	// should match \WpMatomo\Admin\Menu::SLUG_MARKETPLACE
 	define('MATOMO_MARKETPLACE_SUBMENU_SLUG', 'matomo-marketplace');
 }
 

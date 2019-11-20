@@ -17,13 +17,11 @@ class MatomoMarketplaceAdmin {
 	const NONCE_LICENSE = 'matomo_license';
 	const FORM_NAME     = 'matomo_license_key';
 
-	private $valid_tabs = array( 'subscriptions' );
-
 	public function register_hooks()
 	{
 		add_action( 'admin_menu', array( $this, 'add_menu' ), 9999 );
 		add_action( 'network_admin_menu', array( $this, 'add_menu' ), 9999 );
-		add_filter('http_request_args', array( $this, 'add_authentication_if_needed'), 10, 2);
+		add_filter( 'http_request_args', array( $this, 'add_authentication_if_needed'), 10, 2);
 	}
 
 	public function add_authentication_if_needed($parsed_args, $url)
@@ -61,10 +59,13 @@ class MatomoMarketplaceAdmin {
 
 	public function add_menu()
 	{
+		if ( !is_plugin_active('matomo/matomo.php' )) {
+			return;
+		}
 		add_submenu_page( 'matomo', __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), 'superuser_matomo', MATOMO_MARKETPLACE_SUBMENU_SLUG, array(
 			$this,
 			'show'
-		) );
+		), 5 );
 	}
 
 	private function can_user_manage() {
@@ -99,15 +100,52 @@ class MatomoMarketplaceAdmin {
 		$this->update_if_submitted();
 
 		$active_tab = '';
-		if ( isset( $_GET['tab'] ) && in_array( $_GET['tab'], $this->valid_tabs, true ) ) {
+
+		if ($this->can_user_manage()) {
+			$active_tab = 'install';
+			$valid_tabs = array( 'install', 'subscriptions' );
+		}
+
+		$matomoMarketplaceWpMatomo = null;
+		if (class_exists('\WpMatomo\Admin\Marketplace')
+		    && current_user_can('view_matomo')) {
+			$matomoMarketplaceWpMatomo = new \WpMatomo\Admin\Marketplace( \WpMatomo::$settings );
+			$active_tab = 'marketplace'; // default active tab changes to marketplace...
+			$valid_tabs[] = 'marketplace';
+		}
+
+		if ( isset( $_GET['tab'] )
+		     && in_array( $_GET['tab'], $valid_tabs, true ) ) {
 			$active_tab = $_GET['tab'];
 		}
-		$can_view_subscription_tab = $this->can_user_manage();
+
+		if ($this->is_tgmpa_action() && in_array('install', $valid_tabs)) {
+			// we need to force the install tab... to guarantee tgmpa works... as it is using the slug but can't add
+			// another URL parameter automatically like `&tab=install`. If we didn't force the tab, then the tgmpa
+			// code wouldn't be executed and it would not install or update a plugin
+			$active_tab = 'install';
+		}
 
 		$api = new MatomoMarketplaceApi();
 		$matomo_license_key = $api->get_license_key();
 
 		include dirname( __FILE__ ) . '/views/marketplace.php';
+	}
+
+	private function is_tgmpa_action()
+	{
+		if (!empty($_POST)
+		    || isset($_GET['tgmpa-install'])
+		    || isset($_GET['tgmpa-update'])
+		    || isset($_GET['plugin_status'])
+		    || isset($_GET['tgmpa-nonce'])
+		    || isset($_GET['plugin'])
+		    || isset($_GET['_wpnonce'])
+		    || isset($_GET['nonce'])) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

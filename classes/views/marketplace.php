@@ -12,21 +12,31 @@ use WpMatomo\Admin\Marketplace;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/** @var bool $can_view_subscription_tab */
+/** @var array $valid_tabs */
 /** @var string|bool|null $active_tab */
-/** @var \WpMatomo\Settings $settings */
+/** @var \WpMatomo\Admin\Marketplace $matomoMarketplaceWpMatomo */
 ?>
 <div class="wrap">
 	<div id="icon-plugins" class="icon32"></div>
 	<h2 class="nav-tab-wrapper">
-		<a href="?page=matomo-marketplace" class="nav-tab <?php echo empty( $active_tab ) ? 'nav-tab-active' : ''; ?>"
-		><?php esc_html_e( 'Install Plugins', 'matomo-marketplace-for-wordpress' ); ?></a>
-		<?php if ( $can_view_subscription_tab ) { ?>
+        <?php if (in_array('marketplace', $valid_tabs, true)) { ?>
+            <a href="?page=matomo-marketplace&tab=marketplace"
+               class="nav-tab <?php echo ($active_tab === 'marketplace') ? 'nav-tab-active' : ''; ?>"
+            ><?php esc_html_e( 'Overview', 'matomo-marketplace-for-wordpress' ); ?></a>
+        <?php }?>
+		<?php if (in_array('install', $valid_tabs, true)) { ?>
+		    <a href="?page=matomo-marketplace&tab=install"
+               class="nav-tab <?php echo ( $active_tab === 'install' ) ? 'nav-tab-active' : ''; ?>"
+		    ><?php esc_html_e( 'Install Plugins', 'matomo-marketplace-for-wordpress' ); ?></a>
+		<?php }?>
+		<?php if ( in_array('subscriptions', $valid_tabs, true ) ) { ?>
 			<a href="?page=matomo-marketplace&tab=subscriptions"
 			   class="nav-tab <?php echo 'subscriptions' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Subscriptions', 'matomo-marketplace-for-wordpress' ); ?></a>
 		<?php } ?>
 	</h2>
-	<?php if ( empty( $active_tab ) || ! $can_view_subscription_tab ) {
+	<?php if ( 'marketplace' === $active_tab ) {
+		$matomoMarketplaceWpMatomo->show();
+    } elseif ( 'install' === $active_tab ) {
 		$plugins = array();
 
         $api = new MatomoMarketplaceApi();
@@ -40,6 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 $plugins[] = array(
                     'name'               => $plugin['displayName'], // The plugin name.
+                    'owner'              => $plugin['owner'],
                     'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
                     'description'        => $plugin['description'], // The plugin slug (typically the folder name).
                     'source'             => $plugin['downloadUrl'], // The plugin source.
@@ -67,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'default_path' => '',
 			'menu'         => MATOMO_MARKETPLACE_SUBMENU_SLUG,
 			'parent_slug'  => 'matomo',
-			'capability'   => \WpMatomo\Capabilities::KEY_SUPERUSER,    // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
+			'capability'   => 'superuser_matomo',    // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
 			'has_notices'  => false,                    // Show admin notices or not.
 			'dismissable'  => true,                    // If false, a user cannot dismiss the nag message.
 			'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
@@ -85,16 +96,16 @@ if ( ! defined( 'ABSPATH' ) ) {
         $tgmpa = $GLOBALS['tgmpa'];
         $tgmpa->install_plugins_page();
 
-     } elseif ( $can_view_subscription_tab ) { ?>
+     } elseif ( 'subscriptions' === $active_tab ) { ?>
 
 		<h1><?php esc_html_e( 'Premium Feature Subscriptions', 'matomo-marketplace-for-wordpress' ); ?></h1>
 		<p><?php esc_html_e( 'If you have purchased Matomo Premium Features, please enter your license key below.', 'matomo-marketplace-for-wordpress' ); ?></p>
 		<form method="post">
-			<?php wp_nonce_field( Marketplace::NONCE_LICENSE ); ?>
+			<?php wp_nonce_field( MatomoMarketplaceAdmin::NONCE_LICENSE ); ?>
 
 			<p>
 				<label><?php esc_html_e( 'License key', 'matomo-marketplace-for-wordpress' ); ?></label>
-				<input type="text" autocomplete="off" required maxlength="80" name="<?php echo esc_attr( Marketplace::FORM_NAME ); ?>" style="width:300px;">
+				<input type="text" autocomplete="off" required maxlength="80" name="<?php echo esc_attr( MatomoMarketplaceAdmin::FORM_NAME ); ?>" style="width:300px;">
 				<br/>
 				<br/>
 				<input type="submit" class="button-primary"
