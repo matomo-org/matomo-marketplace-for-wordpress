@@ -31,6 +31,13 @@ if (!defined('MATOMO_MARKETPLACE_SUBMENU_SLUG')) {
 require 'vendor/autoload.php';
 
 add_action('init', function () {
+
+	Puc_v4_Factory::buildUpdateChecker(
+		'https://builds.matomo.org/matomo-marketplace-for-wordpress.json',
+		__FILE__,
+		'matomo-marketplace-for-wordpress'
+	);
+
 	if (empty($GLOBALS['MATOMO_MARKETPLACE_PLUGINS'])) {
 		return;
 	}
