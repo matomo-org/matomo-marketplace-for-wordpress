@@ -62,7 +62,13 @@ class MatomoMarketplaceAdmin {
 		if ( !is_plugin_active('matomo/matomo.php' )) {
 			return;
 		}
-		add_submenu_page( 'matomo', __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), 'superuser_matomo', MATOMO_MARKETPLACE_SUBMENU_SLUG, array(
+
+		$capability = 'view_matomo';
+		if ($this->is_multisite()) {
+			$capability = 'superuser_matomo';
+		}
+
+		add_submenu_page( 'matomo', __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), $capability, MATOMO_MARKETPLACE_SUBMENU_SLUG, array(
 			$this,
 			'show'
 		), 5 );
@@ -70,11 +76,15 @@ class MatomoMarketplaceAdmin {
 
 	private function can_user_manage() {
 		// only someone who can activate plugins is allowed to manage subscriptions
-		if ( function_exists('is_multisite') && is_multisite() ) {
+		if ( $this->is_multisite() ) {
 			return is_super_admin();
 		}
 
 		return current_user_can( Capabilities::KEY_SUPERUSER );
+	}
+
+	private function is_multisite() {
+		return function_exists('is_multisite') && is_multisite();
 	}
 
 	private function update_if_submitted() {
@@ -100,10 +110,14 @@ class MatomoMarketplaceAdmin {
 		$this->update_if_submitted();
 
 		$active_tab = '';
+		$valid_tabs[] = array();
 
 		if ($this->can_user_manage()) {
-			$active_tab = 'install';
-			$valid_tabs = array( 'install', 'subscriptions' );
+			if (current_user_can( 'install_plugins' )) {
+				$active_tab = 'install';
+				$valid_tabs[] = 'install';
+			}
+			$valid_tabs[] = 'subscriptions';
 		}
 
 		$matomoMarketplaceWpMatomo = null;
