@@ -63,6 +63,8 @@ class MatomoMarketplaceApi {
 
 	public function get_environment_parameters() {
 		global $wpdb;
+		global $wp_version;
+
 		// we do not want to bootstrap entire Matomo here just to be on the safe side and not break anything
 		// when installing/updating etc
 		include_once plugin_dir_path(MATOMO_ANALYTICS_FILE) . 'app/core/Version.php';
@@ -74,7 +76,8 @@ class MatomoMarketplaceApi {
 			'php' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
 			'matomo' => \Piwik\Version::VERSION,
 			'mysql' => $wpdb->db_version(),
-			'num_websites' => $num_blogs
+			'num_websites' => $num_blogs,
+			'wp_version' => $wp_version
 		);
 		return $params;
 	}
