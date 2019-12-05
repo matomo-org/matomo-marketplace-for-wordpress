@@ -33,6 +33,8 @@ require 'vendor/yahnis-elsts/plugin-update-checker/load-v4p8.php';
 
 add_action('init', function () {
 
+	require 'vendor/autoload.php';
+
 	Puc_v4_Factory::buildUpdateChecker(
 		'https://builds.matomo.org/matomo-marketplace-for-wordpress.json',
 		__FILE__,
@@ -48,7 +50,6 @@ add_action('init', function () {
 	// so we're using an installer lib which also provides update functionality...
 
 	$matomoMarketplacePlugins = $GLOBALS['MATOMO_MARKETPLACE_PLUGINS'];
-	require 'vendor/autoload.php';
 
 	$api = new MatomoMarketplaceApi();
 
