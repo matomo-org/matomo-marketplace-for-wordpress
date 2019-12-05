@@ -33,8 +33,6 @@ require 'vendor/yahnis-elsts/plugin-update-checker/load-v4p8.php';
 
 add_action('init', function () {
 
-	require 'vendor/autoload.php';
-
 	Puc_v4_Factory::buildUpdateChecker(
 		'https://builds.matomo.org/matomo-marketplace-for-wordpress.json',
 		__FILE__,
