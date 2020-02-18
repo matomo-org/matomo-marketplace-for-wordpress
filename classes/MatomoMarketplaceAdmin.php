@@ -96,7 +96,9 @@ class MatomoMarketplaceAdmin {
 
 			$value = '';
 			$api = new MatomoMarketplaceApi();
-			if ( $api->is_valid_api_key( $_POST[ self::FORM_NAME ] ) ) {
+			if (!empty($_POST['remove_license_key'])) {
+				$value = '';
+			} elseif ( $api->is_valid_api_key( $_POST[ self::FORM_NAME ] ) ) {
 				$value = $_POST[ self::FORM_NAME ];
 			} else {
 				echo '<div class="error"><p>' . esc_html__( 'License key is not valid', 'matomo-marketplace-for-wordpress' ) . '</p></div>';

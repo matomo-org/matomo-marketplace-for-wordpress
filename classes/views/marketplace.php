@@ -105,11 +105,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p>
 				<label><?php esc_html_e( 'License key', 'matomo-marketplace-for-wordpress' ); ?></label>
-				<input type="text" autocomplete="off" required maxlength="80" name="<?php echo esc_attr( MatomoMarketplaceAdmin::FORM_NAME ); ?>" style="width:300px;">
+				<input type="text" autocomplete="off" maxlength="80" name="<?php echo esc_attr( MatomoMarketplaceAdmin::FORM_NAME ); ?>" style="width:300px;">
 				<br/>
 				<br/>
 				<input type="submit" class="button-primary"
 					   value="<?php echo( ! empty( $matomo_license_key ) ? esc_attr__( 'Update License Key', 'matomo-marketplace-for-wordpress' ) : esc_attr__( 'Save License Key', 'matomo-marketplace-for-wordpress' ) ); ?>">
+
+                <?php
+                if (!empty($matomo_license_key)) {
+                    ?><input type="submit" class="button-primary"
+                            name="remove_license_key"
+                             value="<?php echo esc_attr__( 'Remove License Key', 'matomo-marketplace-for-wordpress' ); ?>">
+	                <?php
+                }
+                ?>
 			</p>
 		</form>
 
