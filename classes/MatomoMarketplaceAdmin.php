@@ -22,8 +22,24 @@ class MatomoMarketplaceAdmin {
 		add_action( 'admin_menu', array( $this, 'add_menu' ), 9999 );
 		add_action( 'network_admin_menu', array( $this, 'add_menu' ), 9999 );
 		add_filter( 'http_request_args', array( $this, 'add_authentication_if_needed'), 10, 2);
+		add_filter( 'tgmpa_table_data_items', array( $this, 'sort_plugins'), 9999999, 1);
 	}
 
+	public function sort_plugins($items)
+	{
+		$type = array();
+		$name = array();
+
+		foreach ( $items as $i => $plugin ) {
+			$type[ $i ] = $plugin['type']; // Required / recommended.
+			$name[ $i ] = $plugin['sanitized_plugin'];
+		}
+
+		array_multisort( $name, SORT_ASC, $type, SORT_DESC, $items );
+
+		return $items;
+	}
+	
 	public function add_authentication_if_needed($parsed_args, $url)
 	{
 		if (!empty($url)
