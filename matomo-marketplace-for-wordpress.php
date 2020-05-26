@@ -4,7 +4,7 @@
  * Description: Keep plugins from the Matomo Marketplace up to date in your WordPress with the convenience of a click. Get notified on new updates.
  * Author: Matomo
  * Author URI: https://matomo.org
- * Version: 1.0.3
+ * Version: 1.0.4
  *
  * Matomo - free/libre analytics platform
  *
@@ -29,7 +29,7 @@ if (!defined('MATOMO_MARKETPLACE_SUBMENU_SLUG')) {
 }
 
 require 'vendor/autoload.php';
-require 'vendor/yahnis-elsts/plugin-update-checker/load-v4p8.php';
+require 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
 
 add_action('init', function () {
 
