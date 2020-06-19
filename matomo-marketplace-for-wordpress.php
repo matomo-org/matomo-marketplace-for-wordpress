@@ -28,7 +28,12 @@ if (!defined('MATOMO_MARKETPLACE_SUBMENU_SLUG')) {
 	define('MATOMO_MARKETPLACE_SUBMENU_SLUG', 'matomo-marketplace');
 }
 
-require 'vendor/autoload.php';
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+	require __DIR__ . '/vendor/autoload.php';
+} else {
+	require 'vendor/autoload.php';
+}
+
 require 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
 
 add_action('init', function () {
