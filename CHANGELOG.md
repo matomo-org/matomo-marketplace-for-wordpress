@@ -1,3 +1,6 @@
+1.0.6
+- Update plugin update checker library to 4.10
+
 1.0.4
 - Update plugin update checker library to 4.9
 

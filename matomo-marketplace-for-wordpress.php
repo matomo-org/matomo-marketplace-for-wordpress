@@ -4,7 +4,7 @@
  * Description: Keep plugins from the Matomo Marketplace up to date in your WordPress with the convenience of a click. Get notified on new updates.
  * Author: Matomo
  * Author URI: https://matomo.org
- * Version: 1.0.5
+ * Version: 1.0.6
  *
  * Matomo - free/libre analytics platform
  *
