@@ -55,17 +55,21 @@ add_action('init', function () {
 	$matomoMarketplacePlugins = $GLOBALS['MATOMO_MARKETPLACE_PLUGINS'];
 
 	$api = new MatomoMarketplaceApi();
+	$matomo_marketplace_admin = new MatomoMarketplaceAdmin();
 
 	foreach ( $matomoMarketplacePlugins as $plugin_file ) {
 		$plugin_name = dirname( plugin_basename($plugin_file) );
 
 		$update_check_url = $api->make_update_check_url($plugin_name);
 
-		\Puc_v4_Factory::buildUpdateChecker(
+		$updater = \Puc_v4_Factory::buildUpdateChecker(
 			$update_check_url,
 			$plugin_file,
 			$plugin_name
 		);
+		// we only want to add parameters when needed for performance reasons
+
+		$matomo_marketplace_admin->register_plugin_specific_hook($updater);
 	}
 });
 
