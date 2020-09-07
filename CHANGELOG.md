@@ -1,3 +1,6 @@
+1.0.7
+- Show only updates for plugins that work with the installed Matomo version
+
 1.0.6
 - Update plugin update checker library to 4.10
 
