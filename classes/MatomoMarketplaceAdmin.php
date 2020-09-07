@@ -39,33 +39,35 @@ class MatomoMarketplaceAdmin {
 
 		return $items;
 	}
-	
+
 	public function add_authentication_if_needed($parsed_args, $url)
 	{
 		if (!empty($url)
 		    && is_string($url)
 		    && strpos($url, MATOMO_MARKETPLACE_ENDPOINT) === 0) {
+			$parsed_args['method'] = 'POST';
+
 			$api = new MatomoMarketplaceApi();
 			$env_parameters = $api->get_environment_parameters();
 
 			// we do this here for performance reasons so we request the environment parameters only when really needed
 			// and not for example on each request when we make the update check URL
 			foreach ($env_parameters as $parameter => $value) {
-				$url = remove_query_arg($parameter, $url);
-				$url = add_query_arg($parameter, $value, $url);
+				if (array_key_exists('body', $parsed_args) && is_array($parsed_args['body'])) {
+					$parsed_args['body'][$parameter] = rawurlencode($value);
+				} else {
+					$parsed_args['body'] = array($parameter => rawurlencode($value));
+				}
 			}
 
-			if (!empty($parsed_args['method']) && $parsed_args['method'] === 'GET') {
-				$license_key = $api->get_license_key();
-				// for premium features we may need to change it to POST so we can set the access token
+			$license_key = $api->get_license_key();
+			// for premium features we may need to change it to POST so we can set the access token
 
-				if (!empty($license_key)) {
-					$parsed_args['method'] = 'POST';
-					if (array_key_exists('body', $parsed_args) && is_array($parsed_args['body'])) {
-						$parsed_args['body']['access_token'] = $license_key;
-					} else {
-						$parsed_args['body'] = array('access_token' => $license_key);
-					}
+			if (!empty($license_key)) {
+				if (array_key_exists('body', $parsed_args) && is_array($parsed_args['body'])) {
+					$parsed_args['body']['access_token'] = $license_key;
+				} else {
+					$parsed_args['body'] = array('access_token' => $license_key);
 				}
 			}
 		}
