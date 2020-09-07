@@ -62,14 +62,11 @@ add_action('init', function () {
 
 		$update_check_url = $api->make_update_check_url($plugin_name);
 
-		$updater = \Puc_v4_Factory::buildUpdateChecker(
+		\Puc_v4_Factory::buildUpdateChecker(
 			$update_check_url,
 			$plugin_file,
 			$plugin_name
 		);
-		// we only want to add parameters when needed for performance reasons
-
-		$matomo_marketplace_admin->register_plugin_specific_hook($updater);
 	}
 });
 
