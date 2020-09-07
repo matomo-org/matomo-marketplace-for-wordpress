@@ -55,7 +55,6 @@ add_action('init', function () {
 	$matomoMarketplacePlugins = $GLOBALS['MATOMO_MARKETPLACE_PLUGINS'];
 
 	$api = new MatomoMarketplaceApi();
-	$matomo_marketplace_admin = new MatomoMarketplaceAdmin();
 
 	foreach ( $matomoMarketplacePlugins as $plugin_file ) {
 		$plugin_name = dirname( plugin_basename($plugin_file) );
