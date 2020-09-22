@@ -94,6 +94,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         /** @var \TGM_Plugin_Activation $tgmpa */
         $tgmpa = $GLOBALS['tgmpa'];
+        if (!empty($tgmpa->plugins)) {
+	        $tgmpa->plugins = array_filter($tgmpa->plugins, function ($plugin) {
+		        return !empty($plugin['owner']);
+	        });
+        }
         $tgmpa->install_plugins_page();
 
      } elseif ( 'subscriptions' === $active_tab ) { ?>

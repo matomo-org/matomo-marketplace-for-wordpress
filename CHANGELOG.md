@@ -1,3 +1,6 @@
+1.0.8
+- Only show Matomo plugins in the marketplace tab
+
 1.0.7
 - Show only updates for plugins that work with the installed Matomo version
 
