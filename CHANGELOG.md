@@ -1,3 +1,6 @@
+1.0.9
+- Update plugin update checker library to 4.11
+
 1.0.8
 - Only show Matomo plugins in the marketplace tab
 
