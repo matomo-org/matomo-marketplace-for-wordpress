@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-live',
+        'version' => 'dev-live',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'de687981954e1eb91689cbb6621a1bd2075b24f5',
+        'name' => '__root__',
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-live',
+            'version' => 'dev-live',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'de687981954e1eb91689cbb6621a1bd2075b24f5',
+            'dev_requirement' => false,
+        ),
+        'tgmpa/tgm-plugin-activation' => array(
+            'pretty_version' => '2.6.1',
+            'version' => '2.6.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tgmpa/tgm-plugin-activation',
+            'aliases' => array(),
+            'reference' => 'c626d0d91fc8ef24916e809c7b79eeafab1c1cac',
+            'dev_requirement' => false,
+        ),
+        'yahnis-elsts/plugin-update-checker' => array(
+            'pretty_version' => 'v4.13',
+            'version' => '4.13.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../yahnis-elsts/plugin-update-checker',
+            'aliases' => array(),
+            'reference' => '6eb27a6911e0e0880d09e5b11f577d3f688f7da7',
+            'dev_requirement' => false,
+        ),
+    ),
+);
