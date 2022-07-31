@@ -1,3 +1,6 @@
+1.0.10
+- Update vendor dependancies
+
 1.0.9
 - Update plugin update checker library to 4.11
 
