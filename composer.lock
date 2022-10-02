@@ -59,20 +59,24 @@
                 "theme",
                 "wordpress"
             ],
+            "support": {
+                "issues": "https://github.com/TGMPA/TGM-Plugin-Activation/issues",
+                "source": "https://github.com/TGMPA/TGM-Plugin-Activation"
+            },
             "time": "2016-05-19T15:46:51+00:00"
         },
         {
             "name": "yahnis-elsts/plugin-update-checker",
-            "version": "v4.10",
+            "version": "v4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
-                "reference": "0edd15f67822464af8a23285ce367b30d515a855"
+                "reference": "6eb27a6911e0e0880d09e5b11f577d3f688f7da7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/0edd15f67822464af8a23285ce367b30d515a855",
-                "reference": "0edd15f67822464af8a23285ce367b30d515a855",
+                "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/6eb27a6911e0e0880d09e5b11f577d3f688f7da7",
+                "reference": "6eb27a6911e0e0880d09e5b11f577d3f688f7da7",
                 "shasum": ""
             },
             "require": {
@@ -82,7 +86,7 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "load-v4p10.php"
+                    "load-v4p13.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -105,7 +109,11 @@
                 "theme updates",
                 "wordpress"
             ],
-            "time": "2020-08-21T11:36:45+00:00"
+            "support": {
+                "issues": "https://github.com/YahnisElsts/plugin-update-checker/issues",
+                "source": "https://github.com/YahnisElsts/plugin-update-checker/tree/v4.13"
+            },
+            "time": "2022-07-29T12:36:25+00:00"
         }
     ],
     "packages-dev": [],
@@ -115,5 +123,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
