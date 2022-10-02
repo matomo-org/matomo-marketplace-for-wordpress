@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'de687981954e1eb91689cbb6621a1bd2075b24f5',
+        'reference' => 'aa601f90ea7c5561a4a916c9825bad1d900563a8',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'de687981954e1eb91689cbb6621a1bd2075b24f5',
+            'reference' => 'aa601f90ea7c5561a4a916c9825bad1d900563a8',
             'dev_requirement' => false,
         ),
         'tgmpa/tgm-plugin-activation' => array(
