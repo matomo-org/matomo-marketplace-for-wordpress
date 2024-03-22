@@ -28,10 +28,31 @@ if (!defined('MATOMO_MARKETPLACE_SUBMENU_SLUG')) {
 	define('MATOMO_MARKETPLACE_SUBMENU_SLUG', 'matomo-marketplace');
 }
 
+if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
+	/**
+	 * Make sure our custom activation instance is used.
+	 */
+	function load_tgm_plugin_activation() {
+		$GLOBALS['tgmpa'] = Matomo_TGM_Plugin_Activation::get_instance();
+	}
+}
+
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require __DIR__ . '/vendor/autoload.php';
 } else {
 	require 'vendor/autoload.php';
+}
+
+class Matomo_TGM_Plugin_Activation extends TGM_Plugin_Activation {
+	protected $menu = 'matomo-marketplace';
+
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
 }
 
 require 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
