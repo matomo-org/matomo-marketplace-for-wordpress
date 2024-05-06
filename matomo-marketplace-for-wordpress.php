@@ -28,6 +28,17 @@ if (!defined('MATOMO_MARKETPLACE_SUBMENU_SLUG')) {
 	define('MATOMO_MARKETPLACE_SUBMENU_SLUG', 'matomo-marketplace');
 }
 
+if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
+	/**
+	 * Make sure our custom activation instance is used.
+	 */
+	function load_tgm_plugin_activation() {
+		require_once __DIR__ . '/matomo-tgm-plugin-activation.php';
+
+		$GLOBALS['tgmpa'] = Matomo_TGM_Plugin_Activation::get_instance();
+	}
+}
+
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require __DIR__ . '/vendor/autoload.php';
 } else {
