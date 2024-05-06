@@ -1,3 +1,6 @@
+1.0.12
+- Fix bug causing fatal errors in the bulk plugin installer.
+
 1.0.11
 - Update plugin update checker library to 4.13
 
