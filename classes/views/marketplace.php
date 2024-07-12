@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php }?>
 		<?php if ( in_array('subscriptions', $valid_tabs, true ) ) { ?>
 			<a href="?page=matomo-marketplace&tab=subscriptions"
-			   class="nav-tab <?php echo 'subscriptions' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Subscriptions', 'matomo-marketplace-for-wordpress' ); ?></a>
+			   class="nav-tab <?php echo 'subscriptions' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Premium Plugins', 'matomo-marketplace-for-wordpress' ); ?></a>
 		<?php } ?>
 	</h2>
 	<?php if ( 'marketplace' === $active_tab ) {
