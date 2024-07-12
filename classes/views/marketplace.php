@@ -103,6 +103,81 @@ if ( ! defined( 'ABSPATH' ) ) {
 
      } elseif ( 'subscriptions' === $active_tab ) { ?>
 
+
+		<?php
+		if ( empty( $matomo_license_key ) ) {
+		?>
+
+		<style>
+			.matomo-subscriptions-setup {
+				width: 100%;
+				max-width: 700px;
+				background-color: white;
+				box-shadow: 0 1px 2px rgba(0,0,0,.3);
+				border-radius: 3px;
+				border: 1px solid #e9e9e9;
+				position: relative;
+				margin: 32px auto 0 auto;
+			}
+
+			.matomo-subscriptions-setup p {
+				margin-bottom: 1.8em;
+			}
+			.matomo-subscriptions-setup p:last-child {
+				margin-bottom: 0;
+			}
+
+			.matomo-subscriptions-setup > form {
+				padding: 16px;
+			}
+
+			.matomo-subscriptions-setup label {
+				display: inline-block;
+				font-weight: bold;
+				margin-right: 8px;
+			}
+
+			.matomo-subscriptions-terms {
+				color: #888;
+				font-size: .8em;
+				margin-bottom: 8px;
+				display: block;
+			}
+		</style>
+
+		<!-- TODO: translate -->
+		<!-- TODO: links and functionality -->
+		<div class="matomo-subscriptions-setup">
+			<form>
+				<h1>Start your free trial today</h1>
+
+				<p>Maximise your Matomo capabilities with our premium plugins. Create a free marketplace account
+				to automatically associate a valid license key with your Matomo instance.</p>
+
+				<p>
+					<label for="matomo_account_email">Email</label>
+					<input type="text" id="matomo_account_email" name="matomo_account_email" value=""/>
+				</p>
+
+				<p>
+					<span class="matomo-subscriptions-terms">
+						By creating an account you accept the <a href="">Matomo Marketplace Terms and Conditions</a>.
+						We will process your personal data in accordance with our <a href="">Privacy Policy</a>.
+					</span>
+
+					<input type="submit" class="button-primary" value="Create Account">
+				</p>
+
+				<p>
+					Already have a license key? <a href="">Click here to add it.</a>
+				</p>
+			</form>
+		</div>
+
+		<?php
+		} else {
+		?>
+
 		<h1><?php esc_html_e( 'Premium Feature Subscriptions', 'matomo-marketplace-for-wordpress' ); ?></h1>
 		<p><?php esc_html_e( 'If you have purchased Matomo Premium Features, please enter your license key below.', 'matomo-marketplace-for-wordpress' ); ?></p>
 		<form method="post">
@@ -116,89 +191,86 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<input type="submit" class="button-primary"
 					   value="<?php echo( ! empty( $matomo_license_key ) ? esc_attr__( 'Update License Key', 'matomo-marketplace-for-wordpress' ) : esc_attr__( 'Save License Key', 'matomo-marketplace-for-wordpress' ) ); ?>">
 
-                <?php
-                if (!empty($matomo_license_key)) {
-                    ?><input type="submit" class="button-primary"
-                            name="remove_license_key"
-                             value="<?php echo esc_attr__( 'Remove License Key', 'matomo-marketplace-for-wordpress' ); ?>">
-	                <?php
-                }
-                ?>
+				<?php
+				if (!empty($matomo_license_key)) {
+					?><input type="submit" class="button-primary"
+							name="remove_license_key"
+							 value="<?php echo esc_attr__( 'Remove License Key', 'matomo-marketplace-for-wordpress' ); ?>">
+					<?php
+				}
+				?>
 			</p>
 		</form>
 
-		<?php
-
-		if ( ! empty( $matomo_license_key ) ) {
-			$matomo_api      = new MatomoMarketplaceApi();
-			$matomo_licenses = $matomo_api->get_licenses();
+		$matomo_api      = new MatomoMarketplaceApi();
+		$matomo_licenses = $matomo_api->get_licenses();
+		?>
+		<h2><?php esc_html_e( 'Your subscriptions', 'matomo-marketplace-for-wordpress' ); ?></h2>
+		<p><?php esc_html_e( 'Here\'s a summary of your subscriptions.', 'matomo-marketplace-for-wordpress' ); ?>
+			<?php
+			echo sprintf(
+				esc_html__( 'You can find all details, download Premium Features and change your subscriptions by %1$slogging in to your account on the Matomo Marketplace%2$s.', 'matomo-marketplace-for-wordpress' ),
+				'<a rel="noreferrer noopener" target="_blank" href="https://shop.matomo.org/my-account/">',
+				'</a>'
+			);
 			?>
-			<h2><?php esc_html_e( 'Your subscriptions', 'matomo-marketplace-for-wordpress' ); ?></h2>
-			<p><?php esc_html_e( 'Here\'s a summary of your subscriptions.', 'matomo-marketplace-for-wordpress' ); ?>
-				<?php
-				echo sprintf(
-					esc_html__( 'You can find all details, download Premium Features and change your subscriptions by %1$slogging in to your account on the Matomo Marketplace%2$s.', 'matomo-marketplace-for-wordpress' ),
-					'<a rel="noreferrer noopener" target="_blank" href="https://shop.matomo.org/my-account/">',
-					'</a>'
-				);
-				?>
-			</p>
-			<table class="widefat">
-				<thead>
+		</p>
+		<table class="widefat">
+			<thead>
+			<tr>
+				<th><?php esc_html_e( 'Name', 'matomo-marketplace-for-wordpress' ); ?></th>
+				<th><?php esc_html_e( 'Type', 'matomo-marketplace-for-wordpress' ); ?></th>
+				<th><?php esc_html_e( 'Status', 'matomo-marketplace-for-wordpress' ); ?></th>
+				<th><?php esc_html_e( 'Start date', 'matomo-marketplace-for-wordpress' ); ?></th>
+				<th><?php esc_html_e( 'End date', 'matomo-marketplace-for-wordpress' ); ?></th>
+				<th><?php esc_html_e( 'Next payment date', 'matomo-marketplace-for-wordpress' ); ?></th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ( $matomo_licenses as $matomo_license ) { ?>
 				<tr>
-					<th><?php esc_html_e( 'Name', 'matomo-marketplace-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'Type', 'matomo-marketplace-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'Status', 'matomo-marketplace-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'Start date', 'matomo-marketplace-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'End date', 'matomo-marketplace-for-wordpress' ); ?></th>
-					<th><?php esc_html_e( 'Next payment date', 'matomo-marketplace-for-wordpress' ); ?></th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php foreach ( $matomo_licenses as $matomo_license ) { ?>
-					<tr>
-						<td>
-						<?php
-                        $matomo_marketplace_is_license_valid = !empty($matomo_license['isValid']);
-						if ( ! empty( $matomo_license['plugin']['htmlUrl'] ) ) {
-							echo '<a href="' . esc_url( $matomo_license['plugin']['htmlUrl'] ) . '" target="_blank" rel="noreferrer noopener">';
-						}
-                        if ( ! empty( $matomo_license['plugin']['displayName'] ) ) {
-	                        echo esc_html( $matomo_license['plugin']['displayName'] );
-                        }
-						if ( ! empty( $matomo_license['plugin']['htmlUrl'] ) ) {
-							echo '</a>';
+					<td>
+					<?php
+					$matomo_marketplace_is_license_valid = !empty($matomo_license['isValid']);
+					if ( ! empty( $matomo_license['plugin']['htmlUrl'] ) ) {
+						echo '<a href="' . esc_url( $matomo_license['plugin']['htmlUrl'] ) . '" target="_blank" rel="noreferrer noopener">';
+					}
+					if ( ! empty( $matomo_license['plugin']['displayName'] ) ) {
+						echo esc_html( $matomo_license['plugin']['displayName'] );
+					}
+					if ( ! empty( $matomo_license['plugin']['htmlUrl'] ) ) {
+						echo '</a>';
+					}
+					?>
+					</td>
+					<td><?php
+						if( ! empty( $matomo_license['productType'] ) ) {
+							echo esc_html( $matomo_license['productType'] );
 						}
 						?>
-						</td>
-                        <td><?php
-                            if( ! empty( $matomo_license['productType'] ) ) {
-                                echo esc_html( $matomo_license['productType'] );
-                            }
-                            ?>
-                        </td>
-						<td><?php
-                            if( ! empty( $matomo_license['status'] ) ) {
-                                echo esc_html( $matomo_license['status'] );
-                            }
+					</td>
+					<td><?php
+						if( ! empty( $matomo_license['status'] ) ) {
+							echo esc_html( $matomo_license['status'] );
+						}
 
-                            if (!empty($matomo_license['isExceeded'])) {
-                                echo 'The license is exceeded. There are possibly more sites on this WordPress installation than the subscription authorizes.';
-                            }
-						?></td>
-						<td><?php echo( ! empty( $matomo_license['startDate'] ) ? esc_html( $matomo_license['startDate'] ) : '' ); ?></td>
-						<td><?php
-                            if ($matomo_marketplace_is_license_valid && ! empty( $matomo_license['nextPaymentDate'] )) {
-                                echo 'License renews on next payment date';
-							} elseif( ! empty( $matomo_license['endDate'] ) ) {
-								echo esc_html( $matomo_license['endDate'] );
-							}  ?></td>
-						<td><?php echo( ! empty( $matomo_license['nextPaymentDate'] ) ? esc_html( $matomo_license['nextPaymentDate'] ) : '' ); ?></td>
-					</tr>
-				<?php } ?>
-				</tbody>
-			</table>
-			<?php
+						if (!empty($matomo_license['isExceeded'])) {
+							echo 'The license is exceeded. There are possibly more sites on this WordPress installation than the subscription authorizes.';
+						}
+					?></td>
+					<td><?php echo( ! empty( $matomo_license['startDate'] ) ? esc_html( $matomo_license['startDate'] ) : '' ); ?></td>
+					<td><?php
+						if ($matomo_marketplace_is_license_valid && ! empty( $matomo_license['nextPaymentDate'] )) {
+							echo 'License renews on next payment date';
+						} elseif( ! empty( $matomo_license['endDate'] ) ) {
+							echo esc_html( $matomo_license['endDate'] );
+						}  ?></td>
+					<td><?php echo( ! empty( $matomo_license['nextPaymentDate'] ) ? esc_html( $matomo_license['nextPaymentDate'] ) : '' ); ?></td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+		<?php
 		}
 		?>
 
