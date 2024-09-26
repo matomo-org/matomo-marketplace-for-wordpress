@@ -96,7 +96,12 @@ class MatomoMarketplaceApi {
 	}
 
 	public function get_plugins() {
-		$result = $this->request_api( 'wordpress/plugins', array() );
+		$result = $this->request_api(
+			'wordpress/plugins',
+			// workaround bug in marketplace API that returns incompatible plugins
+			// if prefer_stable=1 is not set
+			[ 'prefer_stable' => '1' ]
+		);
 		if ( ! empty( $result['plugins'] ) ) {
 			return $result['plugins'];
 		}
