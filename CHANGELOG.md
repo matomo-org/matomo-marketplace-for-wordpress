@@ -1,3 +1,6 @@
+1.0.13
+- Workaround bug in Matomo Marketplace API around plugin compatibility.
+
 1.0.12
 - Fix bug causing fatal errors in the bulk plugin installer.
 
