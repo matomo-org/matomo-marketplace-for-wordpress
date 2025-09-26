@@ -1,0 +1,38 @@
+name: Marketplace Plugin Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  download-file:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.event.release.tag_name }}
+      BUILD_USER: piwik-builds
+
+    steps:
+    - name: Run wget command
+      run: |
+        wget https://github.com/matomo-org/matomo-marketplace-for-wordpress/archive/live.zip
+        echo "File downloaded successfully."
+        unzip live.zip
+        mv matomo-marketplace-for-wordpress-live matomo-marketplace-for-wordpress
+        echo "Unzipped live.zip successfully."
+        zip -r matomo-marketplace-for-wordpress-$VERSION.zip matomo-marketplace-for-wordpress
+        echo "Rename unzipped folder"
+        rm live.zip
+        rm -rf matomo-marketplace-for-wordpress
+        echo "Remove live.zip and matomo-marketplace-for-wordpress folder"
+        scp -p matomo-marketplace-for-wordpress-$VERSION.zip "$BUILD_USER@origin.matomo.org:/home/$BUILD_USER/www/builds.piwik.org/"
+        scp -p matomo-marketplace-for-wordpress-$VERSION.zip "$BUILD_USER@origin.matomo.org:/home/$BUILD_USER/www/builds.piwik.org/matomo-marketplace-for-wordpress-latest.zip"
+        rm matomo-marketplace-for-wordpress-$VERSION.zip
+        echo "SCP Zip files to piwik-builds and remove zip"
+        echo "{
+            \"name\" : \"Matomo Marketplace for WordPress\",
+            \"version\" : \"$VERSION\",
+            \"download_url\" : \"https://builds.matomo.org/matomo-marketplace-for-wordpress-latest.zip\",
+            \"sections\" : {
+                \"description\" : \"Matomo Marketplace for WordPress\"
+            }
+         }" | ssh $BUILD_USER@origin.matomo.org -T "cat > www/builds.piwik.org/matomo-marketplace-for-wordpress.json"
