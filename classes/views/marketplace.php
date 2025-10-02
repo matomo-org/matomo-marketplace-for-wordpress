@@ -113,17 +113,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$matomo_licenses = $matomo_api->get_licenses();
 			?>
 			<h1><?php esc_html_e( 'Premium Feature Subscriptions', 'matomo-marketplace-for-wordpress' ); ?></h1>
-			<p><?php esc_html_e( 'If you have purchased Matomo Premium Features, please enter your license key below.', 'matomo-marketplace-for-wordpress' ); ?></p>
+			<h2><?php esc_html_e( 'Manage your license key', 'matomo-marketplace-for-wordpress' ); ?></h2>
 			<form method="post">
 				<?php wp_nonce_field( MatomoMarketplaceAdmin::NONCE_LICENSE ); ?>
 
 				<p>
-					<label><?php esc_html_e( 'License key', 'matomo-marketplace-for-wordpress' ); ?></label>
-					<input type="text" autocomplete="off" maxlength="80" name="<?php echo esc_attr( MatomoMarketplaceAdmin::FORM_NAME ); ?>" style="width:300px;">
-					<br/>
-					<br/>
+					<label><?php esc_html_e( 'Update License key', 'matomo-marketplace-for-wordpress' ); ?></label>
+					<input type="text" autocomplete="off" maxlength="80"
+						   name="<?php echo esc_attr( MatomoMarketplaceAdmin::FORM_NAME ); ?>" style="width:300px;"
+						   placeholder="<?php esc_attr_e( 'Enter new license key', 'matomo' ); ?>"
+					>
 					<input type="submit" class="button-primary"
-						   value="<?php echo( ! empty( $matomo_license_key ) ? esc_attr__( 'Update License Key', 'matomo-marketplace-for-wordpress' ) : esc_attr__( 'Save License Key', 'matomo-marketplace-for-wordpress' ) ); ?>">
+						   value="<?php echo( ! empty( $matomo_license_key ) ? esc_attr__( 'Update', 'matomo-marketplace-for-wordpress' ) : esc_attr__( 'Save License Key', 'matomo-marketplace-for-wordpress' ) ); ?>">
+					<br/>
+					<br/>
 
 					<?php
 					if (!empty($matomo_license_key)) {
