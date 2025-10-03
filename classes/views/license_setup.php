@@ -70,9 +70,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		font-size: 16px;
 	}
 </style>
-<script>
-	// TODO
-</script>
 <div class="matomo-marketplace-license-setup">
 	<div class="matomo-marketplace-license-setup-header">
 		<div class="matomo-marketplace-license-setup-logo">
