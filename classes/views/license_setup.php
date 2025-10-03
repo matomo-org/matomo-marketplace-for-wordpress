@@ -73,7 +73,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="matomo-marketplace-license-setup">
 	<div class="matomo-marketplace-license-setup-header">
 		<div class="matomo-marketplace-license-setup-logo">
-			<img alt="Matomo Logo" src="<?php echo esc_attr( $matomo_logo_big ); ?>" />
+			<img alt="Matomo Logo" src="<?php esc_attr_e( $matomo_logo_big ); ?>" />
 		</div>
 	</div>
 
@@ -114,7 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<br/>
 				<br/>
 				<input type="submit" class="button-primary activate-license"
-				   value="<?php esc_html_e( 'Activate', 'matomo-marketplace-for-wordpress' ); ?>">
+				   value="<?php esc_attr_e( 'Activate', 'matomo-marketplace-for-wordpress' ); ?>">
 			</form>
 		</p>
 	</div>
