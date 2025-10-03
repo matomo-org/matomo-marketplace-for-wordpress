@@ -58,49 +58,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		width: 64px;
 	}
 
-	.matomo-marketplace-license-setup .wizard-steps-header {
-		display: flex;
-		flex-direction: row;
-		align-items: flex-start;
-	}
-
-	.matomo-marketplace-license-setup .wizard-steps-header .step-title {
-		text-transform: uppercase;
-		flex: 1;
-		color: #888;
-	}
-
-	.matomo-marketplace-license-setup .wizard-steps-header .divider {
-		width: 33px;
-	}
-
-	.matomo-marketplace-license-setup .wizard-steps {
-		display: flex;
-		flex-direction: row;
-		align-items: stretch;
-	}
-
-	.matomo-marketplace-license-setup .wizard-steps .step {
-		flex: 1;
-		padding-right: 32px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: flex-start;
-		padding-bottom: 6px;
-	}
-
-	.matomo-marketplace-license-setup .wizard-steps .divider {
-		width: 1px;
-		background-color: #aaa;
-		margin: 0 16px;
-	}
-
-	.matomo-marketplace-license-setup .wizard-footer p{
-		font-size: 0.9em;
-		margin-top: 24px;
-	}
-
 	#license-key-input {
 		min-width: 50%;
 		border-radius: 0;
