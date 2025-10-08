@@ -163,7 +163,7 @@ class MatomoMarketplaceAdmin {
 		$api = new MatomoMarketplaceApi();
 		$matomo_license_key = $api->get_license_key();
 
-		$matomo_logo_big = plugins_url( 'assets/img/logo-big.png', MATOMO_MARKETPLACE_ANALYTICS_FILE );// TODO
+		$matomo_logo_big = plugins_url( 'assets/img/logo-big.png', MATOMO_MARKETPLACE_ANALYTICS_FILE );
 
 		include dirname( __FILE__ ) . '/views/marketplace.php';
 	}
