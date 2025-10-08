@@ -2555,8 +2555,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @return string The plugin name and action links.
 		 */
 		public function column_plugin( $item ) {
+            $preface = '';
+            if ( ! empty( $item['add_to_cart_url'] ) ) {
+				$preface = '<span class="matomo-premium-badge">★&nbsp;' . esc_html__( 'Premium', 'matomo' ) . '</span><br/>';
+            }
 			return sprintf(
-				'%1$s %2$s',
+				'%1$s %2$s %3$s',
+                $preface,
 				$item['plugin'],
 				$this->row_actions( $this->get_row_actions( $item ), true )
 			);
@@ -2714,6 +2719,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$actions['purchase'] = [
 					'url'  => $item['add_to_cart_url'],
 					'text' => __( 'Purchase %2$s', 'matomo' ),
+                    'icon' => '<span class="dashicons dashicons-cart"></span>',
 				];
 			}
 
@@ -2732,15 +2738,17 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						'tgmpa-' . $action,
 						'tgmpa-nonce'
 					);
-					$target = '';
+					$target  = '';
+                    $icon    = '';
 				} else {
 					$text   = $info['text'];
 					$url    = $info['url'];
 					$target = ' target="_blank"';
+                    $icon   = $info['icon'];
 				}
 
 				$action_links[ $action ] = sprintf(
-					'<a href="%1$s"' . $target . '>' . esc_html( $text ) . '</a>', // $text contains the second placeholder.
+					'<a href="%1$s"' . $target . '>' . $icon . esc_html( $text ) . '</a>', // $text contains the second placeholder.
 					esc_url( $url ),
 					'<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 				);
