@@ -193,10 +193,11 @@ class MatomoMarketplaceApi {
 	}
 
 	private function get_currency_based_on_timezone() {
-		$timezone = wp_timezone(); // est = utc-4, pdt = utc-7
+		$timezone = wp_timezone();
 		$now      = new DateTime( 'now', $timezone );
 		$offset   = $now->getOffset() / 3600;
 
+		// if timezone is not european, use USD
 		if ( $offset >= 0 && $offset <= 4 ) {
 			return 'EUR';
 		} else {
