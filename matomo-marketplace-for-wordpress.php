@@ -40,12 +40,13 @@ if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
 }
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-	require __DIR__ . '/vendor/autoload.php';
+	require_once __DIR__ . '/vendor/autoload.php';
 } else {
-	require 'vendor/autoload.php';
+	require_once 'vendor/autoload.php';
 }
 
-require 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
+require_once 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
+require_once 'libs/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php';
 
 add_action('init', function () {
 

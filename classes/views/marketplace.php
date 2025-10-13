@@ -17,6 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var string|bool|null $active_tab */
 /** @var \WpMatomo\Admin\Marketplace $matomoMarketplaceWpMatomo */
 ?>
+<style>
+	.matomo-premium-badge {
+		color: #fff;
+		background-color: #F38334;
+		border-radius: 1em;
+		display: inline-flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 0 4px;
+		margin-bottom: 4px;
+	}
+</style>
 <div class="wrap">
 	<div id="icon-plugins" class="icon32"></div>
 	<h2 class="nav-tab-wrapper">
@@ -41,14 +53,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$plugins = array();
 
         $api = new MatomoMarketplaceApi();
-        $apiPlugins = $api->get_plugins();
+        $apiPlugins = $api->get_available_plugins();
 
         if (!empty($apiPlugins)) {
             foreach ($apiPlugins as $plugin) {
-                if (empty($plugin['isDownloadable'])) {
-                    continue;
-                }
-
                 $plugins[] = array(
                     'name'               => $plugin['displayName'], // The plugin name.
                     'owner'              => $plugin['owner'],
@@ -61,6 +69,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                     'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
                     'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
                     'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+					'is_downloadable'    => $plugin['isDownloadable'],
+					'add_to_cart_url'    => $plugin['addToCartUrl'],
                 );
             }
         }

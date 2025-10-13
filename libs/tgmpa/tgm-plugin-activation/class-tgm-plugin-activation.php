@@ -2286,6 +2286,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$table_data[ $i ]['installed_version'] = $this->tgmpa->get_installed_version( $slug );
 				$table_data[ $i ]['minimum_version']   = $plugin['version'];
 				$table_data[ $i ]['available_version'] = $this->tgmpa->does_plugin_have_update( $slug );
+				$table_data[ $i ]['is_downloadable']   = $plugin['is_downloadable'];
+				$table_data[ $i ]['add_to_cart_url']   = $plugin['add_to_cart_url'];
 
 				// Prep the upgrade notice info.
 				$upgrade_notice = $this->tgmpa->get_upgrade_notice( $slug );
@@ -2553,8 +2555,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @return string The plugin name and action links.
 		 */
 		public function column_plugin( $item ) {
+            $preface = '';
+            if ( ! empty( $item['add_to_cart_url'] ) ) {
+				$preface = '<span class="matomo-premium-badge">★&nbsp;' . esc_html__( 'Premium', 'matomo' ) . '</span><br/>';
+            }
 			return sprintf(
-				'%1$s %2$s',
+				'%1$s %2$s %3$s',
+                $preface,
 				$item['plugin'],
 				$this->row_actions( $this->get_row_actions( $item ), true )
 			);
@@ -2690,41 +2697,59 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$actions      = array();
 			$action_links = array();
 
-			// Display the 'Install' action link if the plugin is not yet available.
-			if ( ! $this->tgmpa->is_plugin_installed( $item['slug'] ) ) {
-				/* translators: %2$s: plugin name in screen reader markup */
-				$actions['install'] = __( 'Install %2$s', 'tgmpa' );
-			} else {
-				// Display the 'Update' action link if an update is available and WP complies with plugin minimum.
-				if ( false !== $this->tgmpa->does_plugin_have_update( $item['slug'] ) && $this->tgmpa->can_plugin_update( $item['slug'] ) ) {
+			if ( ! empty( $item['is_downloadable'] ) ) {
+				if ( ! $this->tgmpa->is_plugin_installed( $item['slug'] ) ) {
+					// Display the 'Install' action link if the plugin is not yet available.
 					/* translators: %2$s: plugin name in screen reader markup */
-					$actions['update'] = __( 'Update %2$s', 'tgmpa' );
-				}
+					$actions['install'] = __( 'Install %2$s', 'tgmpa' );
+				} else {
+					// Display the 'Update' action link if an update is available and WP complies with plugin minimum.
+					if ( false !== $this->tgmpa->does_plugin_have_update( $item['slug'] ) && $this->tgmpa->can_plugin_update( $item['slug'] ) ) {
+						/* translators: %2$s: plugin name in screen reader markup */
+						$actions['update'] = __( 'Update %2$s', 'tgmpa' );
+					}
 
-				// Display the 'Activate' action link, but only if the plugin meets the minimum version.
-				if ( $this->tgmpa->can_plugin_activate( $item['slug'] ) ) {
-					/* translators: %2$s: plugin name in screen reader markup */
-					$actions['activate'] = __( 'Activate %2$s', 'tgmpa' );
+					// Display the 'Activate' action link, but only if the plugin meets the minimum version.
+					if ( $this->tgmpa->can_plugin_activate( $item['slug'] ) ) {
+						/* translators: %2$s: plugin name in screen reader markup */
+						$actions['activate'] = __( 'Activate %2$s', 'tgmpa' );
+					}
 				}
+			} elseif ( ! empty( $item['add_to_cart_url'] ) ) {
+				$actions['purchase'] = [
+					'url'  => $item['add_to_cart_url'],
+					'text' => __( 'Purchase %2$s', 'matomo' ),
+                    'icon' => '<span class="dashicons dashicons-cart"></span>',
+				];
 			}
 
 			// Create the actual links.
-			foreach ( $actions as $action => $text ) {
-				$nonce_url = wp_nonce_url(
-					add_query_arg(
-						array(
-							'plugin'           => urlencode( $item['slug'] ),
-							'tgmpa-' . $action => $action . '-plugin',
+			foreach ( $actions as $action => $info ) {
+				if ( is_string( $info ) ) {
+					$text = $info;
+					$url = wp_nonce_url(
+						add_query_arg(
+							array(
+								'plugin'           => urlencode( $item['slug'] ),
+								'tgmpa-' . $action => $action . '-plugin',
+							),
+							$this->tgmpa->get_tgmpa_url()
 						),
-						$this->tgmpa->get_tgmpa_url()
-					),
-					'tgmpa-' . $action,
-					'tgmpa-nonce'
-				);
+						'tgmpa-' . $action,
+						'tgmpa-nonce'
+					);
+					$target  = '';
+                    $icon    = '';
+				} else {
+					$text   = $info['text'];
+					$url    = $info['url'];
+					$target = ' target="_blank"';
+                    $icon   = $info['icon'];
+				}
 
 				$action_links[ $action ] = sprintf(
-					'<a href="%1$s">' . esc_html( $text ) . '</a>', // $text contains the second placeholder.
-					esc_url( $nonce_url ),
+					'<a href="%1$s"' . $target . '>' . $icon . esc_html( $text ) . '</a>', // $text contains the second placeholder.
+					esc_url( $url ),
 					'<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 				);
 			}

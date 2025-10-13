@@ -109,6 +109,57 @@ class MatomoMarketplaceApi {
 		return array();
 	}
 
+	public function get_available_plugins() {
+		$result = $this->request_api(
+			'plugins',
+			[ 'prefer_stable' => '1', 'context' => 'wordpress' ]
+		);
+
+		$result = ! empty( $result['plugins'] ) ? $result['plugins'] : [];
+
+		$result = array_filter(
+			$result,
+			function ( $plugin ) {
+				return $this->is_wordpress_compatible( $plugin );
+			}
+		);
+
+		$currency = $this->get_currency_based_on_timezone();
+
+		$result = array_map(
+			function ( $plugin ) use ( $currency ) {
+				$latest_version = end( $plugin['versions'] );
+				$download_path  = $latest_version['download'] . '?' . http_build_query( $this->get_environment_parameters() );
+
+				$variations = isset( $plugin['shop']['variations'] ) ? $plugin['shop']['variations'] : [];
+				$variationToUse = $this->get_variation_with_currency( $variations, $currency );
+				return [
+					'name'           => $plugin['name'],
+					'displayName'    => $plugin['displayName'],
+					'owner'          => $plugin['owner'],
+					'description'    => $plugin['description'],
+					'isDownloadable' => $plugin['isDownloadable'],
+					'latestVersion'  => $plugin['latestVersion'],
+					'homeUrl'        => $this->endpoint . rawurlencode( $plugin['name'] ),
+					'downloadUrl'    => $this->endpoint . ltrim( $download_path, '/' ),
+					'addToCartUrl'   => isset( $variationToUse['addToCartUrl'] ) ? ( $variationToUse['addToCartUrl'] . '&wp=1' ) : null,
+				];
+			},
+			$result
+		);
+
+		return $result;
+	}
+
+	private function is_wordpress_compatible( $plugin ) {
+		foreach ( $plugin['versions'] as $version ) {
+			if ( $version['wordPressCompatible'] ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private function request_api( $path, $request ) {
 		$license_key = $this->get_license_key();
 
@@ -122,7 +173,7 @@ class MatomoMarketplaceApi {
 			$path .= '&';
 		}
 
-		$path .= http_build_query($this->get_environment_parameters());
+		$path .= http_build_query( $this->get_environment_parameters() );
 
 		$result = wp_remote_post(
 			$this->endpoint . $path,
@@ -139,5 +190,27 @@ class MatomoMarketplaceApi {
 		}
 
 		return json_decode( $result['body'], true );
+	}
+
+	private function get_currency_based_on_timezone() {
+		$timezone = wp_timezone();
+		$now      = new DateTime( 'now', $timezone );
+		$offset   = $now->getOffset() / 3600;
+
+		// if timezone is not european, use USD
+		if ( $offset >= 0 && $offset <= 4 ) {
+			return 'EUR';
+		} else {
+			return 'USD';
+		}
+	}
+
+	private function get_variation_with_currency( $variations, $currency ) {
+		foreach ( $variations as $variation ) {
+			if ( strtoupper( $variation['currency'] ) === $currency ) {
+				return $variation;
+			}
+		}
+		return null;
 	}
 }
