@@ -23,6 +23,30 @@ class MatomoMarketplaceAdmin {
 		add_action( 'network_admin_menu', array( $this, 'add_menu' ), 9999 );
 		add_filter( 'http_request_args', array( $this, 'add_authentication_if_needed'), 10, 2);
 		add_filter( 'tgmpa_table_data_items', array( $this, 'sort_plugins'), 9999999, 1);
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+	}
+
+	public function admin_enqueue_scripts( $admin_page )
+	{
+		if ( 'matomo-analytics_page_' . MATOMO_MARKETPLACE_SUBMENU_SLUG !== $admin_page ) {
+			return;
+		}
+
+		$asset_file = plugin_dir_path( MATOMO_MARKETPLACE_ANALYTICS_FILE ) . 'build/index.asset.php';
+
+		if ( ! is_file( $asset_file ) ) {
+			return;
+		}
+
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'matomo-marketplace-for-wordpress-script',
+			plugins_url( 'build/index.js', MATOMO_MARKETPLACE_ANALYTICS_FILE ),
+			$asset['dependencies'],
+			$asset['version'],
+			[ 'in_footer' => true ]
+		);
 	}
 
 	public function sort_plugins($items)
@@ -77,19 +101,24 @@ class MatomoMarketplaceAdmin {
 
 	public function add_menu()
 	{
-		if ( !is_plugin_active('matomo/matomo.php' )) {
+		if ( ! is_plugin_active( 'matomo/matomo.php' ) ) {
 			return;
 		}
 
 		$capability = 'view_matomo';
-		if ($this->is_multisite()) {
+		if ( $this->is_multisite() ) {
 			$capability = 'superuser_matomo';
 		}
 
-		add_submenu_page( 'matomo', __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), __( 'Marketplace', 'matomo-marketplace-for-wordpress' ), $capability, MATOMO_MARKETPLACE_SUBMENU_SLUG, array(
-			$this,
-			'show'
-		), 5 );
+		add_submenu_page(
+			'matomo',
+			__( 'Marketplace', 'matomo-marketplace-for-wordpress' ),
+			__( 'Marketplace', 'matomo-marketplace-for-wordpress' ),
+			$capability,
+			MATOMO_MARKETPLACE_SUBMENU_SLUG,
+			[ $this, 'show' ],
+			5
+		);
 	}
 
 	private function can_user_manage() {
