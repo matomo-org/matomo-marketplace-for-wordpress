@@ -6,7 +6,6 @@ const MarketplacePage = () => {
 };
 
 domReady( () => {
-	
 	const root = createRoot(
 		document.getElementById( 'matomo-marketplace-for-wordpress' )
 	);

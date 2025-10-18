@@ -15,13 +15,14 @@
     "format:src": "wp-scripts format ./src"
   },
   "devDependencies": {
+    "@fastify/pre-commit": "^2.2.1",
     "@wordpress/components": "^30.5.0",
-    "@wordpress/scripts": "^30.25.0",
-    "pre-commit": "^1.2.2"
+    "@wordpress/scripts": "^30.25.0"
   },
   "pre-commit": [
     "format:src",
     "lint:js:src",
-    "build"
+    "build",
+    "git add src build"
   ]
 }
