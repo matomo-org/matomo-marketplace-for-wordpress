@@ -4,7 +4,7 @@
   "description": "Install and update plugins from the [Matomo Marketplace](https://plugins.matomo.org) without pain.",
   "license": "GPL-3.0-or-later",
   "author": "",
-  "type": "esmodule",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,6 +16,12 @@
   },
   "devDependencies": {
     "@wordpress/components": "^30.5.0",
-    "@wordpress/scripts": "^30.25.0"
-  }
+    "@wordpress/scripts": "^30.25.0",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "format:src",
+    "lint:js:src",
+    "build"
+  ]
 }
