@@ -1,0 +1,279 @@
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/plugin-card.scss ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+#matomo-marketplace-for-wordpress {
+  max-width: 1300px;
+  margin-top: 1em;
+}
+#matomo-marketplace-for-wordpress .enrichedHeadline {
+  min-height: 27px;
+}
+#matomo-marketplace-for-wordpress .marketplaceActions.row,
+#matomo-marketplace-for-wordpress .pluginListContainer.row {
+  margin: 0 -0.75rem;
+}
+#matomo-marketplace-for-wordpress .marketplaceActions.row {
+  margin-top: 20px;
+}
+#matomo-marketplace-for-wordpress .button-primary.disabled,
+#matomo-marketplace-for-wordpress .button-primary[disabled] {
+  color: #858585 !important;
+}
+#matomo-marketplace-for-wordpress .marketplaceActions {
+  margin-bottom: 0;
+}
+#matomo-marketplace-for-wordpress .plugin-search {
+  position: relative;
+  margin-left: 20px;
+}
+#matomo-marketplace-for-wordpress .plugin-search .icon-search {
+  position: absolute;
+  bottom: 32px;
+  left: -16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#matomo-marketplace-for-wordpress .card-holder {
+  text-decoration: none;
+  display: block;
+  border-radius: 4px;
+}
+#matomo-marketplace-for-wordpress .card-holder:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+#matomo-marketplace-for-wordpress .card-holder:hover .card .card-title-link {
+  border-right-style: none;
+}
+#matomo-marketplace-for-wordpress .card-holder:hover .card .card-title-link .card-title {
+  color: #1976d2 !important;
+}
+#matomo-marketplace-for-wordpress .card-holder:hover .card .card-title-link .card-title-chevron {
+  visibility: visible;
+}
+#matomo-marketplace-for-wordpress .card-holder .card {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  position: relative;
+  margin-top: 8px;
+  height: 550px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: visible;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
+  color: #000;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .card-holder .card {
+    height: 380px;
+  }
+}
+@media (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+  #matomo-marketplace-for-wordpress .card-holder .card {
+    height: 520px;
+  }
+}
+@media (min-width: 1700px) {
+  #matomo-marketplace-for-wordpress .card-holder .card {
+    height: 580px;
+  }
+}
+@media (min-width: 1900px) {
+  #matomo-marketplace-for-wordpress .card-holder .card {
+    height: 610px;
+  }
+}
+#matomo-marketplace-for-wordpress .card-holder .card .cover-image {
+  width: 100%;
+  max-width: 550px;
+  height: auto;
+  margin: 0 auto 16px;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .card-holder .card .cover-image {
+    display: none;
+  }
+}
+#matomo-marketplace-for-wordpress .card-holder .card .card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+#matomo-marketplace-for-wordpress .card-holder .card .content-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#matomo-marketplace-for-wordpress .card-holder .card .card-content-bottom {
+  position: relative;
+}
+#matomo-marketplace-for-wordpress .card-holder .card .card-description {
+  margin: 0;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  letter-spacing: 0.08px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .card-holder .card .card-description {
+    -webkit-line-clamp: 5;
+  }
+}
+@media (max-width: 600px) {
+  #matomo-marketplace-for-wordpress .card-holder .card .card-description {
+    -webkit-line-clamp: 2;
+  }
+}
+#matomo-marketplace-for-wordpress .card-holder .card .card-description[data-clamp="2"] {
+  -webkit-line-clamp: 2;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .card-holder .card .card-description[data-clamp="2"] {
+    -webkit-line-clamp: 4;
+  }
+}
+#matomo-marketplace-for-wordpress .card-holder .card .card-description[data-clamp="1"] {
+  -webkit-line-clamp: 1;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .card-holder .card .card-description[data-clamp="1"] {
+    -webkit-line-clamp: 3;
+  }
+}
+#matomo-marketplace-for-wordpress .card-title-link {
+  text-decoration: none;
+}
+#matomo-marketplace-for-wordpress .card-title-link:focus .card-title {
+  color: #1976d2 !important;
+}
+#matomo-marketplace-for-wordpress .card-title-link:focus .card-title-chevron,
+#matomo-marketplace-for-wordpress .card-title-link:focus .card-focus {
+  visibility: visible;
+  cursor: pointer;
+}
+#matomo-marketplace-for-wordpress .card-title {
+  margin: 20px 0 16px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+#matomo-marketplace-for-wordpress .card-focus {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  outline: thin dashed;
+  outline-offset: 1px;
+  border-radius: 4px;
+  visibility: hidden;
+  content: "";
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+#matomo-marketplace-for-wordpress .card-title-chevron {
+  visibility: hidden;
+}
+#matomo-marketplace-for-wordpress .price {
+  color: #f18332;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px; /* 150% */
+}
+#matomo-marketplace-for-wordpress .downloads {
+  color: #686868;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+  margin-bottom: 16px;
+}
+#matomo-marketplace-for-wordpress .owner {
+  color: #686868;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+#matomo-marketplace-for-wordpress .matomo-badge {
+  width: 64px;
+  height: 40px;
+}
+@media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
+  #matomo-marketplace-for-wordpress .matomo-badge {
+    width: 48px;
+    height: 32px;
+  }
+}
+#matomo-marketplace-for-wordpress .matomo-badge-bottom {
+  display: block;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .matomo-badge-bottom {
+    display: none;
+  }
+}
+#matomo-marketplace-for-wordpress .matomo-badge-top {
+  display: none;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .matomo-badge-top {
+    display: block;
+    top: 20px;
+    left: 20px;
+  }
+}
+#matomo-marketplace-for-wordpress .cta-container {
+  width: 70%;
+  margin: 0;
+  position: relative;
+}
+@media (max-width: 480px) {
+  #matomo-marketplace-for-wordpress .cta-container {
+    width: auto;
+  }
+}
+#matomo-marketplace-for-wordpress .cta-container .button-primary:hover, #matomo-marketplace-for-wordpress .cta-container .button-primary:focus {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+#matomo-marketplace-for-wordpress .cta-container .button-primary:focus {
+  outline: thin dotted;
+}
+#matomo-marketplace-for-wordpress .cta-container .button-primary.purchaseable {
+  background: #3E7ECF;
+}
+#matomo-marketplace-for-wordpress .cta-container .alert a:hover,
+#matomo-marketplace-for-wordpress .cta-container .alert a:focus {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  color: #1976d2 !important;
+}
+#matomo-marketplace-for-wordpress .cta-container .alert.alert-no-background {
+  margin: 0;
+  border: 0;
+  background: none;
+  padding: 8px 30px 8px 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+#matomo-marketplace-for-wordpress .cta-container .alert.alert-no-background:before {
+  right: 0;
+}
+#matomo-marketplace-for-wordpress .footer-message {
+  margin-top: 30px;
+}
+#matomo-marketplace-for-wordpress .modal {
+  background-color: #fff;
+}

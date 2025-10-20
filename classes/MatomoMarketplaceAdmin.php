@@ -28,6 +28,7 @@ class MatomoMarketplaceAdmin {
 
 	public function admin_enqueue_scripts( $admin_page )
 	{
+		// TODO: only for install tab
 		if ( 'matomo-analytics_page_' . MATOMO_MARKETPLACE_SUBMENU_SLUG !== $admin_page ) {
 			return;
 		}
@@ -47,6 +48,18 @@ class MatomoMarketplaceAdmin {
 			$asset['version'],
 			[ 'in_footer' => true ]
 		);
+
+		wp_enqueue_style(
+			'unadorned-announcement-bar-style',
+			plugins_url( 'build/index.css', MATOMO_MARKETPLACE_ANALYTICS_FILE ),
+			array_filter(
+				$asset['dependencies'],
+				function ( $style ) {
+					return wp_style_is( $style, 'registered' );
+				}
+			),
+			$asset['version']
+    	);
 	}
 
 	public function sort_plugins($items)
