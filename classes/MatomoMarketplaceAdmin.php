@@ -170,15 +170,23 @@ class MatomoMarketplaceAdmin {
 
 	private function is_tgmpa_action()
 	{
-		if (!empty($_POST)
-		    || isset($_GET['tgmpa-install'])
-		    || isset($_GET['tgmpa-update'])
-		    || isset($_GET['plugin_status'])
-		    || isset($_GET['tgmpa-nonce'])
-		    || isset($_GET['plugin'])
-		    || isset($_GET['_wpnonce'])
-		    || isset($_GET['nonce'])) {
-			return true;
+		$tgmpa_params = [
+			'tgmpa-install',
+			'tgmpa-update',
+			'plugin_status',
+			'tgmpa-nonce',
+			'plugin',
+			'_wpnonce',
+			'nonce',
+		];
+
+		foreach ( $tgmpa_params as $param ) {
+			if (
+				isset( $_GET[ $param ] )
+				|| isset( $_POST[ $param ] )
+			) {
+				return true;
+			}
 		}
 
 		return false;
