@@ -87,25 +87,3 @@ const PluginCard = ( { plugin } ) => {
 // TODO: translations
 
 export default PluginCard;
-
-/*
-                    <!--
-                    -->
-
-<div class="col s12 m6 l4">
-
-    <div class="card-holder">
-        <div class="card">
-            <div class="card-content">
-
-                <div class="content-container">
-                    <div class="card-content-top"><img class="matomo-badge matomo-badge-top" src="plugins/Marketplace/images/matomo-badge.png" aria-label="Matomo plugin" alt="">
-                    </div>
-                    <div class="card-content-bottom">
-                        <!---->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
- */

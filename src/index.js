@@ -7,8 +7,12 @@
 import domReady from '@wordpress/dom-ready';
 import { createRoot } from '@wordpress/element';
 import PluginGrid from './plugin-grid.js';
+import PluginFilters from './plugin-filters.js';
+import useMarketplaceState from './marketplace-state.js';
 
 const MarketplacePage = () => {
+    const state = useMarketplaceState();
+
 	return (
 		<div>
 			<p style={ { margin: '2em 0' } }>
@@ -17,7 +21,9 @@ const MarketplacePage = () => {
 				directly install free plugins and themes.
 			</p>
 
-			<PluginGrid />
+            <PluginFilters></PluginFilters>
+
+			<PluginGrid plugins={state.plugins} />
 		</div>
 	);
 };

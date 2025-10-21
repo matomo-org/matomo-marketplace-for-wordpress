@@ -2,6 +2,35 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/marketplace-state.js":
+/*!**********************************!*\
+  !*** ./src/marketplace-state.js ***!
+  \**********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+const useMarketplaceState = () => {
+  const [plugins, setPlugins] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(window.matomoMarketplaceForWordpressData.plugins);
+  return {
+    plugins,
+    setPlugins
+  };
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useMarketplaceState);
+
+/***/ }),
+
 /***/ "./src/plugin-card.js":
 /*!****************************!*\
   !*** ./src/plugin-card.js ***!
@@ -113,28 +142,6 @@ const PluginCard = ({
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PluginCard);
 
-/*
-                    <!--
-                    -->
-
-<div class="col s12 m6 l4">
-
-    <div class="card-holder">
-        <div class="card">
-            <div class="card-content">
-
-                <div class="content-container">
-                    <div class="card-content-top"><img class="matomo-badge matomo-badge-top" src="plugins/Marketplace/images/matomo-badge.png" aria-label="Matomo plugin" alt="">
-                    </div>
-                    <div class="card-content-bottom">
-                        <!---->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
- */
-
 /***/ }),
 
 /***/ "./src/plugin-card.scss":
@@ -146,6 +153,70 @@ const PluginCard = ({
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "./src/plugin-filters.js":
+/*!*******************************!*\
+  !*** ./src/plugin-filters.js ***!
+  \*******************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _marketplace_state_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./marketplace-state.js */ "./src/marketplace-state.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+
+
+
+
+const PluginFilters = ({
+  onFilterChange
+}) => {
+  let [showPluginsOrThemes, setShowPluginsOrThemes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('plugins');
+  let [sort, setSort] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('last_updated');
+  let [search, setSearch] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.Flex, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "plugins",
+        children: "Plugins"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "themes",
+        children: "Themes"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "last_updated",
+        children: "Last Updated"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "popular",
+        children: "Popular"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "newest",
+        children: "Newest"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "alphabetically",
+        children: "Alphabetically"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      type: "text",
+      value: search,
+      placeholder: `Search ${showPluginsOrThemes === 'plugins' ? 'plugins' : 'themes'}...`
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PluginFilters);
 
 /***/ }),
 
@@ -172,10 +243,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const PluginGrid = () => {
-  const {
-    plugins
-  } = window.matomoMarketplaceForWordpressData;
+const PluginGrid = ({
+  plugins
+}) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.__experimentalGrid, {
     alignment: "stretch",
     columns: 3,
@@ -305,7 +375,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _plugin_grid_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./plugin-grid.js */ "./src/plugin-grid.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var _plugin_filters_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./plugin-filters.js */ "./src/plugin-filters.js");
+/* harmony import */ var _marketplace_state_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./marketplace-state.js */ "./src/marketplace-state.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /**
  * Matomo - free/libre analytics platform
  *
@@ -316,19 +388,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 const MarketplacePage = () => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+  const state = (0,_marketplace_state_js__WEBPACK_IMPORTED_MODULE_4__["default"])();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
       style: {
         margin: '2em 0'
       },
       children: "Expand Matomo's functionality with plugins and change its appearance with themes. Start free trials for premium plugins or directly install free plugins and themes."
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_plugin_grid_js__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_plugin_filters_js__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_plugin_grid_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      plugins: state.plugins
+    })]
   });
 };
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__(() => {
   const root = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(document.getElementById('matomo-marketplace-for-wordpress'));
-  root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(MarketplacePage, {}));
+  root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(MarketplacePage, {}));
 });
 })();
 

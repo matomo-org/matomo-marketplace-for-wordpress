@@ -8,9 +8,7 @@
 import { __experimentalGrid as Grid } from '@wordpress/components';
 import PluginCard from './plugin-card.js';
 
-const PluginGrid = () => {
-	const { plugins } = window.matomoMarketplaceForWordpressData;
-
+const PluginGrid = ({ plugins }) => {
 	return (
 		<Grid
 			alignment="stretch"
