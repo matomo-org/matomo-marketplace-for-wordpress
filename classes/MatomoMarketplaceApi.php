@@ -126,8 +126,10 @@ class MatomoMarketplaceApi {
 
 		$currency = $this->get_currency_based_on_timezone();
 
+		$host = 'https://' . parse_url( $this->endpoint, PHP_URL_HOST ) . '/';
+
 		$result = array_map(
-			function ( $plugin ) use ( $currency ) {
+			function ( $plugin ) use ( $currency, $host ) {
 				$latest_version = end( $plugin['versions'] );
 				$download_path  = $latest_version['download'] . '?' . http_build_query( $this->get_environment_parameters() );
 
@@ -140,8 +142,8 @@ class MatomoMarketplaceApi {
 					'description'    => $plugin['description'],
 					'isDownloadable' => $plugin['isDownloadable'],
 					'latestVersion'  => $plugin['latestVersion'],
-					'homeUrl'        => $this->endpoint . rawurlencode( $plugin['name'] ),
-					'downloadUrl'    => $this->endpoint . ltrim( $download_path, '/' ),
+					'homeUrl'        => $host . rawurlencode( $plugin['name'] ),
+					'downloadUrl'    => $host . ltrim( $download_path, '/' ),
 					'addToCartUrl'   => isset( $variationToUse['addToCartUrl'] ) ? ( $variationToUse['addToCartUrl'] . '&wp=1' ) : null,
 				];
 			},
