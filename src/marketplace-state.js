@@ -7,13 +7,14 @@
 import { useState } from '@wordpress/element';
 
 const useMarketplaceState = () => {
-    const [ plugins, setPlugins ] = useState( window.matomoMarketplaceForWordpressData.plugins );
+	const [ plugins, setPlugins ] = useState(
+		window.matomoMarketplaceForWordpressData.plugins
+	);
 
-    return {
-        plugins,
-        setPlugins,
-    };
+	return {
+		plugins,
+		setPlugins,
+	};
 };
 
 export default useMarketplaceState;
-

@@ -9,21 +9,24 @@ import { createRoot } from '@wordpress/element';
 import PluginGrid from './plugin-grid.js';
 import PluginFilters from './plugin-filters.js';
 import useMarketplaceState from './marketplace-state.js';
+import './install-plugins.scss';
 
 const MarketplacePage = () => {
-    const state = useMarketplaceState();
+	const state = useMarketplaceState();
 
 	return (
-		<div>
+		<div className="matomo-marketplace-install-plugins">
+			<h1>Marketplace</h1>
+
 			<p style={ { margin: '2em 0' } }>
 				Expand Matomo&#39;s functionality with plugins and change its
 				appearance with themes. Start free trials for premium plugins or
 				directly install free plugins and themes.
 			</p>
 
-            <PluginFilters></PluginFilters>
+			<PluginFilters></PluginFilters>
 
-			<PluginGrid plugins={state.plugins} />
+			<PluginGrid plugins={ state.plugins } />
 		</div>
 	);
 };

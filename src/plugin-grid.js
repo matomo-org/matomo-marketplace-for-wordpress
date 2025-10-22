@@ -8,7 +8,7 @@
 import { __experimentalGrid as Grid } from '@wordpress/components';
 import PluginCard from './plugin-card.js';
 
-const PluginGrid = ({ plugins }) => {
+const PluginGrid = ( { plugins } ) => {
 	return (
 		<Grid
 			alignment="stretch"
