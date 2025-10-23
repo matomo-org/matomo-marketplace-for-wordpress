@@ -109,9 +109,18 @@ class MatomoMarketplaceApi {
 		return array();
 	}
 
-	public function get_available_plugins() {
+	/**
+	 * @param string $themesOrPlugins 'themes' or 'plugins'
+	 * @return array|array[]
+	 * @throws Exception
+	 */
+	public function get_available_plugins( $type = 'plugins' ) {
+		if ( $type !== 'themes' && $type !== 'plugins' ) {
+			throw new InvalidArgumentException( 'Invalid argument supplied for "$type", expected "themes" or "plugins".' );
+		}
+
 		$result = $this->request_api(
-			'plugins',
+			$type,
 			[ 'prefer_stable' => '1', 'context' => 'wordpress' ]
 		);
 

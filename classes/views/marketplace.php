@@ -53,9 +53,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     } elseif ( 'install' === $active_tab ) {
 		$matomo_mwp_plugins = array();
 
-        $api = new MatomoMarketplaceApi();
-        $apiPlugins = $api->get_available_plugins();
-
         if (!empty($apiPlugins)) {
             foreach ($apiPlugins as $plugin) {
 				if ( empty( $plugin['owner'] ) ) {

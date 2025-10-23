@@ -24,6 +24,54 @@ class MatomoMarketplaceAdmin {
 		add_filter( 'http_request_args', array( $this, 'add_authentication_if_needed'), 10, 2);
 		add_filter( 'tgmpa_table_data_items', array( $this, 'sort_plugins'), 9999999, 1);
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'rest_api_init', [ $this, 'rest_api_init' ] );
+	}
+
+	public function rest_api_init() {
+		register_rest_route(
+			'matomo-marketplace-for-wordpress/v1',
+			'/plugins',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'search_plugins_ajax' ],
+			]
+		);
+	}
+
+	public function search_plugins_ajax( \WP_REST_Request $request ) {
+		$matomo_mwp_plugins = [];
+
+		$api = new MatomoMarketplaceApi();
+		$apiPlugins = $api->get_available_plugins( $request->get_param( 'type' ) );
+
+		if (!empty($apiPlugins)) {
+			foreach ($apiPlugins as $plugin) {
+				if ( empty( $plugin['owner'] ) ) {
+					continue;
+				}
+
+				$matomo_mwp_plugins[] = array(
+					'name'               => $plugin['displayName'], // The plugin name.
+					'owner'              => $plugin['owner'],
+					'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
+					'description'        => $plugin['description'], // The plugin slug (typically the folder name).
+					'source'             => $plugin['downloadUrl'], // The plugin source.
+					'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+					'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+					'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+					'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+					'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
+					'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+					'is_downloadable'    => $plugin['isDownloadable'],
+					'add_to_cart_url'    => $plugin['addToCartUrl'],
+					'cover_image_url'    => $plugin['coverImage'],
+					'pretty_price'       => $plugin['prettyPrice'],
+					'price_period'       => $plugin['pricePeriod'],
+				);
+			}
+		}
+
+		return $matomo_mwp_plugins;
 	}
 
 	public function admin_enqueue_scripts( $admin_page )

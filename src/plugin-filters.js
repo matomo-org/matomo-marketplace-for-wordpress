@@ -5,19 +5,24 @@
  */
 
 import { Flex } from '@wordpress/components';
-import { useState } from '@wordpress/element';
-import useMarketplaceState from './marketplace-state.js';
+import { useState, useEffect } from '@wordpress/element';
 
 const PluginFilters = ( { onFilterChange } ) => {
-	let [ showPluginsOrThemes, setShowPluginsOrThemes ] = useState( 'plugins' );
+	let [ type, setType ] = useState( 'plugins' );
 	let [ sort, setSort ] = useState( 'last_updated' );
 	let [ search, setSearch ] = useState( '' );
+
+	useEffect( () => {
+		if ( onFilterChange ) {
+			onFilterChange( { type, sort, search } );
+		}
+	}, [ type, sort, search ] );
 
 	return (
 		<Flex className="matomo-plugin-filters" justify="flex-start">
 			<select
-				value={ showPluginsOrThemes }
-				onChange={ ( e ) => setShowPluginsOrThemes( e.target.value ) }
+				value={ type }
+				onChange={ ( e ) => setType( e.target.value ) }
 			>
 				<option value="plugins">Plugins</option>
 				<option value="themes">Themes</option>
@@ -37,7 +42,7 @@ const PluginFilters = ( { onFilterChange } ) => {
 				type="text"
 				value={ search }
 				placeholder={ `Search ${
-					showPluginsOrThemes === 'plugins' ? 'plugins' : 'themes'
+					type === 'plugins' ? 'plugins' : 'themes'
 				}...` }
 				onChange={ ( e ) => setSearch( e.target.value ) }
 			/>

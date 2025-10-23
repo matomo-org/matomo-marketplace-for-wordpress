@@ -9,10 +9,11 @@ import { createRoot } from '@wordpress/element';
 import PluginGrid from './plugin-grid.js';
 import PluginFilters from './plugin-filters.js';
 import useMarketplaceState from './marketplace-state.js';
+import { searchPlugins } from './api.js';
 import './install-plugins.scss';
 
 const MarketplacePage = () => {
-	const state = useMarketplaceState();
+	const { plugins, setPlugins } = useMarketplaceState();
 
 	return (
 		<div className="matomo-marketplace-install-plugins">
@@ -24,9 +25,17 @@ const MarketplacePage = () => {
 				directly install free plugins and themes.
 			</p>
 
-			<PluginFilters></PluginFilters>
+			<PluginFilters
+				onFilterChange={ async ( { type, sort, search } ) => {
+					const plugins = await searchPlugins( { type, search } );
 
-			<PluginGrid plugins={ state.plugins } />
+					// TODO: sort
+
+					setPlugins( plugins );
+				} }
+			></PluginFilters>
+
+			<PluginGrid plugins={ plugins } />
 		</div>
 	);
 };

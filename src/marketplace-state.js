@@ -6,10 +6,9 @@
 
 import { useState } from '@wordpress/element';
 
+// TODO: this function is unnecessary
 const useMarketplaceState = () => {
-	const [ plugins, setPlugins ] = useState(
-		window.matomoMarketplaceForWordpressData.plugins
-	);
+	const [ plugins, setPlugins ] = useState( null );
 
 	return {
 		plugins,
