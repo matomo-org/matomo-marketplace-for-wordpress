@@ -1,3 +1,7 @@
+1.0.14
+- In Install Plugins page display all plugins including premium plugins that cannot be downloaded yet.
+- Redesign subscriptions page when no license is set.
+
 1.0.13
 - Workaround bug in Matomo Marketplace API around plugin compatibility.
 
