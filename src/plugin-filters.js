@@ -13,15 +13,18 @@ const PluginFilters = ( { onFilterChange } ) => {
 	const [ sort, setSort ] = useState( 'lastUpdated' );
 	const [ search, setSearch ] = useState( '' );
 
+	let debounced;
 	if ( onFilterChange ) {
-		onFilterChange = debounce( onFilterChange, 800 );
+		debounced = debounce( onFilterChange, 800 );
 	}
 
+	// TODO: remove use of effect
 	useEffect( () => {
-		if ( onFilterChange ) {
-			onFilterChange( { type, sort, search } );
+		if ( debounced ) {
+			debounced( { type, sort, search } );
 		}
-	}, [ type, sort, search, onFilterChange ] );
+		// eslint-disable-next-line
+	}, [ type, sort, search ] );
 
 	return (
 		<Flex className="matomo-plugin-filters" justify="flex-start">

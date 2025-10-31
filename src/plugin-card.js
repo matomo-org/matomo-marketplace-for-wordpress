@@ -9,6 +9,32 @@ import * as React from 'react';
 import { Card, CardBody, CardMedia, Flex } from '@wordpress/components';
 import './plugin-card.scss';
 
+const DownloadButton = ( { plugin } ) => {
+	const buttonText = plugin.is_downloadable ? 'Download' : 'Start free trial';
+
+	let buttonUrl;
+	if ( plugin.is_downloadable ) {
+		buttonUrl = ''; // TODO
+	} else {
+		buttonUrl = plugin.add_to_cart_url || plugin.external_url;
+	}
+
+	return (
+		<a
+			href={ buttonUrl }
+			target={ plugin.is_downloadable ? '' : '_blank' }
+			rel={ plugin.is_downloadable ? '' : 'noreferrer noopener' }
+		>
+			<button
+				className="button-primary purchaseable"
+				title={ buttonText }
+			>
+				{ buttonText }
+			</button>
+		</a>
+	);
+};
+
 const PluginCard = ( { plugin } ) => {
 	const { pluginUrl } = window.matomoMarketplaceForWordpressData;
 
@@ -61,12 +87,7 @@ const PluginCard = ( { plugin } ) => {
 								</div>
 								<Flex justify="space-between">
 									<div className="cta-container">
-										<div
-											className="button-primary purchaseable"
-											title="Start free trial"
-										>
-											Start free trial
-										</div>
+										<DownloadButton plugin={ plugin } />
 									</div>
 									<img
 										className="matomo-badge matomo-badge-bottom"
