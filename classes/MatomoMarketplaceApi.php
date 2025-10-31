@@ -114,14 +114,14 @@ class MatomoMarketplaceApi {
 	 * @return array|array[]
 	 * @throws Exception
 	 */
-	public function get_available_plugins( $type = 'plugins' ) {
+	public function get_available_plugins( $type = 'plugins', $search = '' ) {
 		if ( $type !== 'themes' && $type !== 'plugins' ) {
 			throw new InvalidArgumentException( 'Invalid argument supplied for "$type", expected "themes" or "plugins".' );
 		}
 
 		$result = $this->request_api(
 			$type,
-			[ 'prefer_stable' => '1', 'context' => 'wordpress' ]
+			[ 'prefer_stable' => '1', 'context' => 'wordpress', 'query' => $search ]
 		);
 
 		$result = ! empty( $result['plugins'] ) ? $result['plugins'] : [];
@@ -155,6 +155,9 @@ class MatomoMarketplaceApi {
 					'prettyPrice'    => isset( $variationToUse['prettyPrice'] ) ? $variationToUse['prettyPrice'] : null,
 					'pricePeriod'    => isset( $variationToUse['period'] ) ? $variationToUse['period'] : null,
 					'coverImage'     => $plugin['coverImage'],
+					'lastUpdated'        => $plugin['lastUpdated'],
+					'numDownloads'       => $plugin['numDownloads'],
+					'createdDateTime'    => $plugin['createdDateTime'],
 				];
 			},
 			$result

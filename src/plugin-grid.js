@@ -18,6 +18,8 @@ const PluginGrid = ( { plugins } ) => {
 				) }
 			</Animate>
 		);
+	} else if ( plugins.length === 1 ) {
+		children = <span>0 results found.</span>;
 	} else {
 		children = plugins.map( ( p ) => (
 			<PluginCard plugin={ p } key={ p.slug } />

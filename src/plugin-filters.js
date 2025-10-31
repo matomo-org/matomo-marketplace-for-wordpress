@@ -6,17 +6,22 @@
 
 import { Flex } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
+import debounce from './debounce.js';
 
 const PluginFilters = ( { onFilterChange } ) => {
-	let [ type, setType ] = useState( 'plugins' );
-	let [ sort, setSort ] = useState( 'last_updated' );
-	let [ search, setSearch ] = useState( '' );
+	const [ type, setType ] = useState( 'plugins' );
+	const [ sort, setSort ] = useState( 'lastUpdated' );
+	const [ search, setSearch ] = useState( '' );
+
+	if ( onFilterChange ) {
+		onFilterChange = debounce( onFilterChange, 800 );
+	}
 
 	useEffect( () => {
 		if ( onFilterChange ) {
 			onFilterChange( { type, sort, search } );
 		}
-	}, [ type, sort, search ] );
+	}, [ type, sort, search, onFilterChange ] );
 
 	return (
 		<Flex className="matomo-plugin-filters" justify="flex-start">
@@ -32,10 +37,10 @@ const PluginFilters = ( { onFilterChange } ) => {
 				value={ sort }
 				onChange={ ( e ) => setSort( e.target.value ) }
 			>
-				<option value="last_updated">Last Updated</option>
-				<option value="popular">Popular</option>
-				<option value="newest">Newest</option>
-				<option value="alphabetically">Alphabetically</option>
+				<option value="lastUpdated">Last Updated</option>
+				<option value="numDownloads">Popular</option>
+				<option value="createdDateTime">Newest</option>
+				<option value="displayName">Alphabetically</option>
 			</select>
 
 			<input

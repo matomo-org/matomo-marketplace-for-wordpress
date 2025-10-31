@@ -42,7 +42,7 @@ class MatomoMarketplaceAdmin {
 		$matomo_mwp_plugins = [];
 
 		$api = new MatomoMarketplaceApi();
-		$apiPlugins = $api->get_available_plugins( $request->get_param( 'type' ) );
+		$apiPlugins = $api->get_available_plugins( $request->get_param( 'type' ), $request->get_param( 'search' ) );
 
 		if (!empty($apiPlugins)) {
 			foreach ($apiPlugins as $plugin) {
@@ -67,6 +67,10 @@ class MatomoMarketplaceAdmin {
 					'cover_image_url'    => $plugin['coverImage'],
 					'pretty_price'       => $plugin['prettyPrice'],
 					'price_period'       => $plugin['pricePeriod'],
+					'lastUpdated'        => $plugin['lastUpdated'],
+					'numDownloads'       => $plugin['numDownloads'],
+					'createdDateTime'    => $plugin['createdDateTime'],
+					'displayName'        => $plugin['displayName'],
 				);
 			}
 		}

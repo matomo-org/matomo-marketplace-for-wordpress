@@ -12,6 +12,12 @@ import useMarketplaceState from './marketplace-state.js';
 import { searchPlugins } from './api.js';
 import './install-plugins.scss';
 
+function isSortAscending( sort ) {
+	return sort === 'displayName';
+}
+
+let currentQuery;
+
 const MarketplacePage = () => {
 	const { plugins, setPlugins } = useMarketplaceState();
 
@@ -27,11 +33,44 @@ const MarketplacePage = () => {
 
 			<PluginFilters
 				onFilterChange={ async ( { type, sort, search } ) => {
-					const plugins = await searchPlugins( { type, search } );
+					currentQuery = {
+						type,
+						sort,
+						search,
+					};
 
-					// TODO: sort
+					setPlugins( null );
 
-					setPlugins( plugins );
+					const searchResult = await searchPlugins( {
+						type,
+						search,
+					} );
+
+					if (
+						currentQuery.type !== type ||
+						currentQuery.sort !== sort ||
+						currentQuery.search !== search
+					) {
+						return;
+					}
+
+					if ( isSortAscending( sort ) ) {
+						searchResult.sort( function ( lhs, rhs ) {
+							if ( lhs[ sort ] === rhs[ sort ] ) {
+								return 0;
+							}
+							return lhs[ sort ] < rhs[ sort ] ? -1 : 1;
+						} );
+					} else {
+						searchResult.sort( function ( lhs, rhs ) {
+							if ( lhs[ sort ] === rhs[ sort ] ) {
+								return 0;
+							}
+							return rhs[ sort ] < lhs[ sort ] ? -1 : 1;
+						} );
+					}
+
+					setPlugins( searchResult );
 				} }
 			></PluginFilters>
 
