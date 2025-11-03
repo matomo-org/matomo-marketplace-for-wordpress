@@ -14,7 +14,7 @@ const DownloadButton = ( { plugin } ) => {
 
 	let buttonUrl;
 	if ( plugin.is_downloadable ) {
-		buttonUrl = ''; // TODO
+		buttonUrl = plugin.installUrl;
 	} else {
 		buttonUrl = plugin.add_to_cart_url || plugin.external_url;
 	}

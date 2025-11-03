@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var array $valid_tabs */
 /** @var string|bool|null $active_tab */
 /** @var \WpMatomo\Admin\Marketplace $matomoMarketplaceWpMatomo */
+/** @var bool $matomo_is_tgmpa_admin_action */
 ?>
 <style>
 	.matomo-premium-badge {
@@ -51,35 +52,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php if ( 'marketplace' === $active_tab ) {
 		$matomoMarketplaceWpMatomo->show();
     } elseif ( 'install' === $active_tab ) {
-		$matomo_mwp_plugins = array();
-
-        if (!empty($apiPlugins)) {
-            foreach ($apiPlugins as $plugin) {
-				if ( empty( $plugin['owner'] ) ) {
-					continue;
-				}
-
-				$matomo_mwp_plugins[] = array(
-                    'name'               => $plugin['displayName'], // The plugin name.
-                    'owner'              => $plugin['owner'],
-                    'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
-                    'description'        => $plugin['description'], // The plugin slug (typically the folder name).
-                    'source'             => $plugin['downloadUrl'], // The plugin source.
-                    'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-                    'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-                    'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-                    'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-                    'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
-                    'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
-					'is_downloadable'    => $plugin['isDownloadable'],
-					'add_to_cart_url'    => $plugin['addToCartUrl'],
-					'cover_image_url'    => $plugin['coverImage'],
-					'pretty_price'       => $plugin['prettyPrice'],
-					'price_period'       => $plugin['pricePeriod'],
-                );
-            }
-        }
-
 		wp_localize_script(
 			'matomo-marketplace-for-wordpress-script',
 			'matomoMarketplaceForWordpressData',
@@ -116,13 +88,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			)
 		);
 
-		tgmpa( $matomo_mwp_plugins, $config );
+		if ( $matomo_is_tgmpa_admin_action ) {
+			tgmpa( $matomo_mwp_plugins, $config );
 
-		?>
-		<div id="matomo-marketplace-for-wordpress">
-			<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
-		</div>
-		<?php
+			$tgmpa = $GLOBALS['tgmpa'];
+			$tgmpa->install_plugins_page();
+		} else {
+			?>
+			<div id="matomo-marketplace-for-wordpress">
+				<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
+			</div>
+			<?php
+		}
 
      } elseif ( 'subscriptions' === $active_tab ) { ?>
 

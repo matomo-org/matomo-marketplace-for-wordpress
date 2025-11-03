@@ -38,17 +38,33 @@ class MatomoMarketplaceAdmin {
 		);
 	}
 
-	public function search_plugins_ajax( \WP_REST_Request $request ) {
+	public function search_plugins_ajax( \WP_REST_Request $request )
+	{
+		return $this->search_plugins( $request->get_param( 'type' ), $request->get_param( 'search' ) );
+	}
+
+	public function search_plugins( $type = 'plugins', $search = '' ) {
 		$matomo_mwp_plugins = [];
 
 		$api = new MatomoMarketplaceApi();
-		$apiPlugins = $api->get_available_plugins( $request->get_param( 'type' ), $request->get_param( 'search' ) );
+		$apiPlugins = $api->get_available_plugins( $type, $search );
 
 		if (!empty($apiPlugins)) {
 			foreach ($apiPlugins as $plugin) {
 				if ( empty( $plugin['owner'] ) ) {
 					continue;
 				}
+
+				$install_url = $this->get_tgmpa_url();
+				$install_url = add_query_arg(
+					array(
+						'plugin'        => urlencode( $plugin['name'] ),
+						'tgmpa-install' => 'install-plugin',
+						'tgmpa-nonce'   => wp_create_nonce( 'tgmpa-install' ),
+						'tab'           => 'install',
+					),
+					$install_url
+				);
 
 				$matomo_mwp_plugins[] = array(
 					'name'               => $plugin['displayName'], // The plugin name.
@@ -71,6 +87,7 @@ class MatomoMarketplaceAdmin {
 					'numDownloads'       => $plugin['numDownloads'],
 					'createdDateTime'    => $plugin['createdDateTime'],
 					'displayName'        => $plugin['displayName'],
+					'installUrl'         => $install_url,
 				);
 			}
 		}
@@ -259,6 +276,10 @@ class MatomoMarketplaceAdmin {
 
 		$matomo_logo_big = plugins_url( 'assets/img/logo-big.png', MATOMO_MARKETPLACE_ANALYTICS_FILE );
 
+		$matomo_is_tgmpa_admin_action = $this->is_tgmpa_action();
+
+		$matomo_mwp_plugins = $this->search_plugins();
+
 		include dirname( __FILE__ ) . '/views/marketplace.php';
 	}
 
@@ -286,4 +307,19 @@ class MatomoMarketplaceAdmin {
 		return false;
 	}
 
+	private function get_tgmpa_url() {
+		static $url;
+
+		if ( ! isset( $url ) ) {
+			$parent = 'admin.php';
+			$url = add_query_arg(
+				array(
+					'page' => urlencode( 'matomo-marketplace' ),
+				),
+				self_admin_url( $parent )
+			);
+		}
+
+		return $url;
+	}
 }
