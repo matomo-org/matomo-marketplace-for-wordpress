@@ -162,6 +162,8 @@
     text-decoration: none;
 
     &:focus {
+      box-shadow: none !important;
+
       .card-title {
         color: #1976d2 !important;
       }

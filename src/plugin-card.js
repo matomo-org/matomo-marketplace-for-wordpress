@@ -10,13 +10,18 @@ import { Card, CardBody, CardMedia, Flex } from '@wordpress/components';
 import './plugin-card.scss';
 
 const DownloadButton = ( { plugin } ) => {
-	const buttonText = plugin.is_downloadable ? 'Download' : 'Start free trial';
+	let buttonText = plugin.is_downloadable ? 'Download' : 'Start free trial';
 
 	let buttonUrl;
 	if ( plugin.is_downloadable ) {
 		buttonUrl = plugin.installUrl;
 	} else {
 		buttonUrl = plugin.add_to_cart_url || plugin.external_url;
+	}
+
+	if ( plugin.isInstalled ) {
+		buttonUrl = '';
+		buttonText = 'Installed';
 	}
 
 	return (
@@ -28,6 +33,7 @@ const DownloadButton = ( { plugin } ) => {
 			<button
 				className="button-primary purchaseable"
 				title={ buttonText }
+				disabled={ plugin.isInstalled ? 'disabled' : '' }
 			>
 				{ buttonText }
 			</button>
