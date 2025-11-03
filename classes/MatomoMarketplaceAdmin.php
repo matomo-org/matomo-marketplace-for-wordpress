@@ -88,6 +88,7 @@ class MatomoMarketplaceAdmin {
 					'createdDateTime'    => $plugin['createdDateTime'],
 					'displayName'        => $plugin['displayName'],
 					'installUrl'         => $install_url,
+					'isInstalled'		 => is_file( WP_PLUGIN_DIR . '/' . $plugin['name'] . '/' . $plugin['name'] . '.php' ),
 				);
 			}
 		}
@@ -264,7 +265,11 @@ class MatomoMarketplaceAdmin {
 			$active_tab = $_GET['tab'];
 		}
 
-		if ($this->is_tgmpa_action() && in_array('install', $valid_tabs)) {
+		if (
+			$this->is_tgmpa_action()
+			&& in_array('install', $valid_tabs)
+			&& $active_tab !== 'subscriptions'
+		) {
 			// we need to force the install tab... to guarantee tgmpa works... as it is using the slug but can't add
 			// another URL parameter automatically like `&tab=install`. If we didn't force the tab, then the tgmpa
 			// code wouldn't be executed and it would not install or update a plugin
