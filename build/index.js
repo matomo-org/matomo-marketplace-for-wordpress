@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=window.wp.domReady,t=window.wp.element,o=window.ReactJSXRuntime,d=()=>(0,o.jsx)("div",{});e(()=>{(0,t.createRoot)(document.getElementById("matomo-marketplace-for-wordpress")).render((0,o.jsx)(d,{}))})})();

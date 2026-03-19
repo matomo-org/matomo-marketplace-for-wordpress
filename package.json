@@ -1,0 +1,28 @@
+{
+  "name": "matomo-marketplace-for-wordpress",
+  "version": "1.0.0",
+  "description": "Install and update plugins from the [Matomo Marketplace](https://plugins.matomo.org) without pain.",
+  "license": "GPL-3.0-or-later",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "lint:js": "wp-scripts lint-js",
+    "lint:js:src": "wp-scripts lint-js ./src",
+    "format:src": "wp-scripts format ./src"
+  },
+  "devDependencies": {
+    "@fastify/pre-commit": "^2.2.1",
+    "@wordpress/components": "^30.5.0",
+    "@wordpress/scripts": "^30.25.0"
+  },
+  "pre-commit": [
+    "format:src",
+    "lint:js:src",
+    "build",
+    "git add src build"
+  ]
+}
