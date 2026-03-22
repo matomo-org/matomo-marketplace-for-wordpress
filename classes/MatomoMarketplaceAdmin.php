@@ -120,7 +120,7 @@ class MatomoMarketplaceAdmin {
 		);
 
 		wp_enqueue_style(
-			'unadorned-announcement-bar-style',
+			'matomo-marketplace-for-wordpress-style',
 			plugins_url( 'build/index.css', MATOMO_MARKETPLACE_ANALYTICS_FILE ),
 			array_filter(
 				$asset['dependencies'],

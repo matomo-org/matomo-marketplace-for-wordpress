@@ -18,7 +18,7 @@
     "@fastify/pre-commit": "^2.2.1",
     "@wordpress/api-fetch": "^7.33.0",
     "@wordpress/components": "^30.5.0",
-    "@wordpress/scripts": "^30.25.0"
+    "@wordpress/scripts": "^31.7.0"
   },
   "pre-commit": [
     "format:src",

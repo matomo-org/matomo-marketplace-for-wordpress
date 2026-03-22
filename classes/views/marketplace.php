@@ -32,6 +32,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 </style>
 
 <div class="wrap">
+	<div id="matomo-marketplace-for-wordpress">
+		<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
+	</div>
+
 	<div id="icon-plugins" class="icon32"></div>
 	<h2 class="nav-tab-wrapper">
         <?php if (in_array('marketplace', $valid_tabs, true)) { ?>
