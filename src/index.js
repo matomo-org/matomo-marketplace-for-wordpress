@@ -80,9 +80,10 @@ const MarketplacePage = () => {
 };
 
 domReady( () => {
-	const root = createRoot(
-		document.getElementById( 'matomo-marketplace-for-wordpress' )
+	const rootElement = document.getElementById(
+		'matomo-marketplace-for-wordpress'
 	);
+	const root = createRoot( rootElement );
 
 	root.render( <MarketplacePage /> );
 } );
