@@ -81,6 +81,10 @@ add_action('init', function () {
 	}
 });
 
+add_filter( 'puc_request_info_result-matomo-marketplace-for-wordpress', function ( $plugin_info ) {
+	$plugin_info->download_url = $plugin_info->download_url . '?update=1';
+} );
+
 include 'classes/MatomoMarketplaceAdmin.php';
 include 'classes/MatomoMarketplaceApi.php';
 include 'classes/MatomoMarketplaceTgmpa.php';
