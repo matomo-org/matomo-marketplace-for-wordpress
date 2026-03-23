@@ -61,21 +61,27 @@ if ( ! defined( 'ABSPATH' ) ) {
         $apiPlugins = $api->get_available_plugins();
 
         if (!empty($apiPlugins)) {
+			if ( ! function_exists( 'matomo_decorate_goal_url' ) ) {
+				function matomo_decorate_goal_url( $url ) {
+					return $url;
+				}
+			}
+
             foreach ($apiPlugins as $plugin) {
                 $plugins[] = array(
                     'name'               => $plugin['displayName'], // The plugin name.
                     'owner'              => $plugin['owner'],
                     'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
                     'description'        => $plugin['description'], // The plugin slug (typically the folder name).
-                    'source'             => $plugin['downloadUrl'], // The plugin source.
+                    'source'             => matomo_decorate_goal_url( $plugin['downloadUrl'] ), // The plugin source.
                     'required'           => false, // If false, the plugin is only 'recommended' instead of required.
                     'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
                     'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
                     'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-                    'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
+                    'external_url'       => !empty($plugin['homeUrl']) ? matomo_decorate_goal_url( $plugin['homeUrl'] ) : '', // If set, overrides default API URL and points to an external URL.
                     'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
 					'is_downloadable'    => $plugin['isDownloadable'],
-					'add_to_cart_url'    => $plugin['addToCartUrl'],
+					'add_to_cart_url'    => matomo_decorate_goal_url( $plugin['addToCartUrl'] ),
                 );
             }
         }
