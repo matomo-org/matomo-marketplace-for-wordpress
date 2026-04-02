@@ -9,7 +9,6 @@ import { createRoot, useMemo, useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import PluginGrid from './plugin-grid.js';
 import PluginFilters from './plugin-filters.js';
-import useMarketplaceState from './marketplace-state.js';
 import { searchPlugins } from './api.js';
 import './install-plugins.scss';
 import debounce from './debounce.js';
@@ -60,7 +59,7 @@ const searchUsingFilter = async ( setPlugins, { sort, search } ) => {
 };
 
 const MarketplacePage = () => {
-	const { plugins, setPlugins } = useMarketplaceState();
+    const [ plugins, setPlugins ] = useState( null );
     const [ sort, setSort ] = useState( 'lastUpdated' );
     const [ search, setSearch ] = useState( '' );
 

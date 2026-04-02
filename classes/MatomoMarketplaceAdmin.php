@@ -98,8 +98,13 @@ class MatomoMarketplaceAdmin {
 
 	public function admin_enqueue_scripts( $admin_page )
 	{
-		// TODO: only for install tab
-		if ( 'matomo-analytics_page_' . MATOMO_MARKETPLACE_SUBMENU_SLUG !== $admin_page ) {
+		if (
+			'matomo-analytics_page_' . MATOMO_MARKETPLACE_SUBMENU_SLUG !== $admin_page
+			&& (
+				empty( $_REQUEST['tab'] )
+				|| 'tab' !== $_REQUEST['tab']
+			)
+		) {
 			return;
 		}
 
@@ -132,7 +137,7 @@ class MatomoMarketplaceAdmin {
     	);
 
 		wp_set_script_translations(
-			'matomo-marketplace-for-wordpress-script', // The handle used in wp_enqueue_script
+			'matomo-marketplace-for-wordpress-script',
 			'matomo',
 			plugin_dir_path( __FILE__ ) . 'languages'
 		);
