@@ -18,19 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var \WpMatomo\Admin\Marketplace $matomoMarketplaceWpMatomo */
 /** @var bool $matomo_is_tgmpa_admin_action */
 ?>
-<style>
-	.matomo-premium-badge {
-		color: #fff;
-		background-color: #F38334;
-		border-radius: 1em;
-		display: inline-flex;
-		flex-direction: row;
-		align-items: center;
-		padding: 0 4px;
-		margin-bottom: 4px;
-	}
-</style>
-
 <div class="wrap">
 	<div id="icon-plugins" class="icon32"></div>
 	<h2 class="nav-tab-wrapper">

@@ -1,0 +1,112 @@
+# Copyright (C) 2026 Matomo
+# This file is distributed under the same license as the Matomo Marketplace for WordPress plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Matomo Marketplace for WordPress 1.0.14\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/marketplace\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T01:05:23+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: matomo\n"
+
+#. Plugin Name of the plugin
+#: matomo-marketplace-for-wordpress.php:3
+msgid "Matomo Marketplace for WordPress"
+msgstr ""
+
+#. Description of the plugin
+#: matomo-marketplace-for-wordpress.php:4
+msgid "Keep plugins from the Matomo Marketplace up to date in your WordPress with the convenience of a click. Get notified on new updates."
+msgstr ""
+
+#. Author of the plugin
+#: matomo-marketplace-for-wordpress.php:5
+msgid "Matomo"
+msgstr ""
+
+#. Author URI of the plugin
+#: matomo-marketplace-for-wordpress.php:6
+msgid "https://matomo.org"
+msgstr ""
+
+#: classes/views/marketplace.php:111
+msgid "Enter new license key"
+msgstr ""
+
+#: libs/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2559
+msgid "Premium"
+msgstr ""
+
+#: libs/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2720
+#, php-format
+msgid "Purchase %2$s"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-card.js:24
+msgid "Download"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-card.js:25
+msgid "Start free trial"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-card.js:36
+msgid "Installed"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-card.js:81
+msgid "Free"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-card.js:106
+msgid "Created by"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-grid.js:18
+msgid "Loading"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-grid.js:23
+msgid "0 results found."
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-filters.js:19
+msgid "Last Updated"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-filters.js:20
+msgid "Popular"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-filters.js:21
+msgid "Newest"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-filters.js:22
+msgid "Alphabetically"
+msgstr ""
+
+#: build/index.js:1
+#: src/plugin-filters.js:28
+msgid "Search plugins"
+msgstr ""
+
+#: build/index.js:1
+msgid "Expand Matomo's functionality with plugins. Start free trials for premium plugins or directly install free plugins developed by the Matomo community."
+msgstr ""

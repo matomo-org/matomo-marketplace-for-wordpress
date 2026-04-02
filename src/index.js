@@ -5,12 +5,14 @@
  */
 
 import domReady from '@wordpress/dom-ready';
-import { createRoot } from '@wordpress/element';
+import { createRoot, useMemo, useEffect, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import PluginGrid from './plugin-grid.js';
 import PluginFilters from './plugin-filters.js';
 import useMarketplaceState from './marketplace-state.js';
 import { searchPlugins } from './api.js';
 import './install-plugins.scss';
+import debounce from './debounce.js';
 
 function isSortAscending( sort ) {
 	return sort === 'displayName';
@@ -18,61 +20,80 @@ function isSortAscending( sort ) {
 
 let currentQuery;
 
+const searchUsingFilter = async ( setPlugins, { sort, search } ) => {
+    currentQuery = {
+        sort,
+        search,
+    };
+
+    setPlugins( null );
+
+    const searchResult = await searchPlugins( {
+        type: 'plugins',
+        search,
+    } );
+
+    if (
+        currentQuery.sort !== sort
+        || currentQuery.search !== search
+    ) {
+        return;
+    }
+
+    if ( isSortAscending( sort ) ) {
+        searchResult.sort( function ( lhs, rhs ) {
+            if ( lhs[ sort ] === rhs[ sort ] ) {
+                return 0;
+            }
+            return lhs[ sort ] < rhs[ sort ] ? -1 : 1;
+        } );
+    } else {
+        searchResult.sort( function ( lhs, rhs ) {
+            if ( lhs[ sort ] === rhs[ sort ] ) {
+                return 0;
+            }
+            return rhs[ sort ] < lhs[ sort ] ? -1 : 1;
+        } );
+    }
+
+    setPlugins( searchResult );
+};
+
 const MarketplacePage = () => {
 	const { plugins, setPlugins } = useMarketplaceState();
+    const [ sort, setSort ] = useState( 'lastUpdated' );
+    const [ search, setSearch ] = useState( '' );
+
+    const searchUsingFilterDebounced = useMemo(
+        () => debounce( searchUsingFilter.bind( null, setPlugins ), 300 )
+    );
+
+    useEffect(() => {
+        searchUsingFilterDebounced( { sort, search } );
+        return () => { searchUsingFilterDebounced.cancel(); };
+    }, [sort, search]);
 
 	return (
 		<div className="matomo-marketplace-install-plugins">
 			<h1>Marketplace</h1>
 
 			<p style={ { margin: '2em 0' } }>
-				Expand Matomo&#39;s functionality with plugins and change its
-				appearance with themes. Start free trials for premium plugins or
-				directly install free plugins and themes.
+                { __(
+                    'Expand Matomo\'s functionality with plugins. Start free trials for'
+                    + ' premium plugins or directly install free plugins developed by the Matomo'
+                    + ' community.',
+                    'matomo'
+                ) }
 			</p>
 
 			<PluginFilters
-				onFilterChange={ async ( { type, sort, search } ) => {
-					currentQuery = {
-						type,
-						sort,
-						search,
-					};
-
-					setPlugins( null );
-
-					const searchResult = await searchPlugins( {
-						type,
-						search,
-					} );
-
-					if (
-						currentQuery.type !== type ||
-						currentQuery.sort !== sort ||
-						currentQuery.search !== search
-					) {
-						return;
-					}
-
-					if ( isSortAscending( sort ) ) {
-						searchResult.sort( function ( lhs, rhs ) {
-							if ( lhs[ sort ] === rhs[ sort ] ) {
-								return 0;
-							}
-							return lhs[ sort ] < rhs[ sort ] ? -1 : 1;
-						} );
-					} else {
-						searchResult.sort( function ( lhs, rhs ) {
-							if ( lhs[ sort ] === rhs[ sort ] ) {
-								return 0;
-							}
-							return rhs[ sort ] < lhs[ sort ] ? -1 : 1;
-						} );
-					}
-
-					setPlugins( searchResult );
-				} }
-			></PluginFilters>
+                sort={sort}
+                search={search}
+                onFilterChange={({ sort, search }) => {
+                    setSort(sort);
+                    setSearch(search);
+                }}
+            />
 
 			<PluginGrid plugins={ plugins } />
 		</div>

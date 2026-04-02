@@ -153,7 +153,7 @@ class MatomoMarketplaceApi {
 					'latestVersion'  => $plugin['latestVersion'],
 					'homeUrl'        => $host . rawurlencode( $plugin['name'] ),
 					'downloadUrl'    => $host . ltrim( $download_path, '/' ),
-					'addToCartUrl'   => isset( $variationToUse['addToCartUrl'] ) ? ( $variationToUse['addToCartUrl'] . '&wp=1' ) : null,
+					'addToCartUrl'   => isset( $variationToUse['addToCartUrl'] ) ? ( $variationToUse['addToCartUrl'] . '&wp=1&source=wordpress' ) : null,
 					'prettyPrice'    => isset( $variationToUse['prettyPrice'] ) ? $variationToUse['prettyPrice'] : null,
 					'pricePeriod'    => isset( $variationToUse['period'] ) ? $variationToUse['period'] : null,
 					'coverImage'     => $plugin['coverImage'],

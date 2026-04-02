@@ -6,11 +6,23 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as React from 'react';
-import { Card, CardBody, CardMedia, Flex } from '@wordpress/components';
+import { useState } from '@wordpress/element';
+import {
+    Card,
+    CardBody,
+    CardMedia,
+    Flex,
+    Spinner,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import './plugin-card.scss';
 
 const DownloadButton = ( { plugin } ) => {
-	let buttonText = plugin.is_downloadable ? 'Download' : 'Start free trial';
+    const [ isDownloading, setIsDownloading ] = useState( false );
+
+	let buttonText = plugin.is_downloadable
+        ? __( 'Download', 'matomo' )
+        : __( 'Start free trial', 'matomo' );
 
 	let buttonUrl;
 	if ( plugin.is_downloadable ) {
@@ -21,7 +33,7 @@ const DownloadButton = ( { plugin } ) => {
 
 	if ( plugin.isInstalled ) {
 		buttonUrl = '';
-		buttonText = 'Installed';
+		buttonText = __( 'Installed', 'matomo' );
 	}
 
 	return (
@@ -29,13 +41,15 @@ const DownloadButton = ( { plugin } ) => {
 			href={ buttonUrl }
 			target={ plugin.is_downloadable ? '' : '_blank' }
 			rel={ plugin.is_downloadable ? '' : 'noreferrer noopener' }
+            onClick={ () => plugin.is_downloadable && setIsDownloading(true) }
 		>
 			<button
 				className="button-primary purchaseable"
 				title={ buttonText }
-				disabled={ plugin.isInstalled ? 'disabled' : '' }
+				disabled={ plugin.isInstalled || isDownloading ? 'disabled' : '' }
 			>
 				{ buttonText }
+                { isDownloading && ( <Spinner /> ) }
 			</button>
 		</a>
 	);
@@ -63,13 +77,13 @@ const PluginCard = ( { plugin } ) => {
 							>
 								<div className="price">
 									{ plugin.pretty_price
-										? `From ${ plugin.pretty_price } / ${ plugin.price_period }`
-										: 'Free' }
+										? `${ __( 'From' ), 'matomo' } ${ plugin.pretty_price } / ${ plugin.price_period }`
+										: __( 'Free', 'matomo' ) }
 								</div>
 
 								<a
 									className="card-title-link"
-									href={ plugin.external_url }
+									href={ `${plugin.external_url}?wp=1&source=wordpress` }
 									target="_blank"
 									rel="noreferrer noopener"
 									tabIndex="0"
@@ -89,7 +103,7 @@ const PluginCard = ( { plugin } ) => {
 							</div>
 							<div className="card-content-bottom">
 								<div className="owner">
-									Created by <span> { plugin.owner }</span>
+                                    { __( 'Created by', 'matomo' ) } <span> { plugin.owner }</span>
 								</div>
 								<Flex justify="space-between">
 									<div className="cta-container">
@@ -110,7 +124,5 @@ const PluginCard = ( { plugin } ) => {
 		</Card>
 	);
 };
-
-// TODO: translations
 
 export default PluginCard;

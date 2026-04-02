@@ -130,6 +130,12 @@ class MatomoMarketplaceAdmin {
 			),
 			$asset['version']
     	);
+
+		wp_set_script_translations(
+			'matomo-marketplace-for-wordpress-script', // The handle used in wp_enqueue_script
+			'matomo',
+			plugin_dir_path( __FILE__ ) . 'languages'
+		);
 	}
 
 	public function sort_plugins($items)

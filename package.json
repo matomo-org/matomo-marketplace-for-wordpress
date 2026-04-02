@@ -12,7 +12,9 @@
     "start": "wp-scripts start",
     "lint:js": "wp-scripts lint-js",
     "lint:js:src": "wp-scripts lint-js ./src",
-    "format:src": "wp-scripts format ./src"
+    "format:src": "wp-scripts format ./src",
+    "i18n:make-pot": "php vendor/wp-cli/wp-cli/php/boot-fs.php i18n make-pot . languages/matomo.pot --domain=matomo --exclude=node_modules,vendor,dist",
+    "i18n:make-json": "php vendor/wp-cli/wp-cli/php/boot-fs.php i18n make-json languages"
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.2.1",
@@ -25,5 +27,8 @@
     "lint:js:src",
     "build",
     "git add src build"
-  ]
+  ],
+  "dependencies": {
+    "@wordpress/i18n": "^6.16.0"
+  }
 }
