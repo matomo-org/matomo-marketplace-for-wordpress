@@ -39,6 +39,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php if ( 'marketplace' === $active_tab ) {
 		$matomoMarketplaceWpMatomo->show();
+	} elseif ( ! empty( $matomo_error ) ) {
+		?>
+		<p><?php esc_html_e( 'Failed to connect to marketplace API', 'matomo-marketplace-for-wordpress' ); ?>: <?php echo esc_html( $matomo_error ); ?></p>
+		<p><?php esc_html_e( 'Please try reloading the page.', 'matomo-marketplace-for-wordpress' ); ?></p>
+		<?php
     } elseif ( 'install' === $active_tab ) {
 		wp_localize_script(
 			'matomo-marketplace-for-wordpress-script',

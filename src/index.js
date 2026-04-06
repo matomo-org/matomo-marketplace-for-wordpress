@@ -59,18 +59,27 @@ const searchUsingFilter = async ( setPlugins, { sort, search } ) => {
 };
 
 const MarketplacePage = () => {
-    const [ plugins, setPlugins ] = useState( null );
-    const [ sort, setSort ] = useState( 'lastUpdated' );
-    const [ search, setSearch ] = useState( '' );
+  const [ plugins, setPlugins ] = useState( null );
+  const [ sort, setSort ] = useState( 'lastUpdated' );
+  const [ search, setSearch ] = useState( '' );
 
-    const searchUsingFilterDebounced = useMemo(
-        () => debounce( searchUsingFilter.bind( null, setPlugins ), 300 )
-    );
+  const searchUsingFilterDebounced = useMemo(
+    () => debounce( searchUsingFilter.bind( null, setPlugins ), 300 )
+  );
 
-    useEffect(() => {
-        searchUsingFilterDebounced( { sort, search } );
-        return () => { searchUsingFilterDebounced.cancel(); };
-    }, [sort, search]);
+  // initialize search to URL query param if there is a value there
+  useEffect(() => {
+    const params = new URLSearchParams(document.location.search);
+    const s = params.get('search').trim();
+    if (s.length) {
+      setSearch(s);
+    }
+  });
+
+  useEffect(() => {
+    searchUsingFilterDebounced( { sort, search } );
+    return () => { searchUsingFilterDebounced.cancel(); };
+  }, [sort, search]);
 
 	return (
 		<div className="matomo-marketplace-install-plugins">

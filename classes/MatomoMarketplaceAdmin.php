@@ -294,7 +294,12 @@ class MatomoMarketplaceAdmin {
 
 		$matomo_is_tgmpa_admin_action = $this->is_tgmpa_action();
 
-		$matomo_mwp_plugins = $this->search_plugins();
+		try {
+			$matomo_mwp_plugins = $this->search_plugins();
+		} catch ( \Exception $e ) {
+			$matomo_error = $e->getMessage();
+			error_log( 'Failed to connect to Matomo Marketplace API: ' . $matomo_error );
+		}
 
 		include dirname( __FILE__ ) . '/views/marketplace.php';
 	}
