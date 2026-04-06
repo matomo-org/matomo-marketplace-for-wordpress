@@ -13,24 +13,30 @@ const PluginFilters = ( { onFilterChange, sort, search } ) => {
 			<select
 				value={ sort }
 				onChange={ ( e ) => {
-                    onFilterChange( { sort: e.target.value, search } );
-                } }
+					onFilterChange( { sort: e.target.value, search } );
+				} }
 			>
-				<option value="lastUpdated">{ __( 'Last Updated', 'matomo' ) }</option>
-				<option value="numDownloads">{ __( 'Popular', 'matomo' ) }</option>
-				<option value="createdDateTime">{ __( 'Newest', 'matomo' ) }</option>
-				<option value="displayName">{ __( 'Alphabetically', 'matomo' ) }</option>
+				<option value="lastUpdated">
+					{ __( 'Last Updated', 'matomo' ) }
+				</option>
+				<option value="numDownloads">
+					{ __( 'Popular', 'matomo' ) }
+				</option>
+				<option value="createdDateTime">
+					{ __( 'Newest', 'matomo' ) }
+				</option>
+				<option value="displayName">
+					{ __( 'Alphabetically', 'matomo' ) }
+				</option>
 			</select>
 
 			<input
 				type="text"
 				value={ search }
-				placeholder={ `${ __('Search plugins', 'matomo' ) }...` }
-				onChange={
-                    ( e ) => {
-                        onFilterChange( { search: e.target.value, sort } );
-                    }
-                }
+				placeholder={ `${ __( 'Search plugins', 'matomo' ) }...` }
+				onChange={ ( e ) => {
+					onFilterChange( { search: e.target.value, sort } );
+				} }
 			/>
 		</Flex>
 	);

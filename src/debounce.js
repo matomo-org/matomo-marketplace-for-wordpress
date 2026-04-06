@@ -13,7 +13,7 @@ export default function debounce( fn, delayInMs = DEFAULT_DEBOUNCE_DELAY ) {
 		}, delayInMs );
 	};
 
-    debounced.cancel = () => clearTimeout( timeout );
+	debounced.cancel = () => clearTimeout( timeout );
 
-    return debounced;
+	return debounced;
 }

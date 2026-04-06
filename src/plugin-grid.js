@@ -15,7 +15,9 @@ const PluginGrid = ( { plugins } ) => {
 		children = (
 			<Animate type="loading">
 				{ ( { className } ) => (
-					<span className={ className }>{ __( 'Loading', 'matomo' ) }...</span>
+					<span className={ className }>
+						{ __( 'Loading', 'matomo' ) }...
+					</span>
 				) }
 			</Animate>
 		);
