@@ -82,7 +82,7 @@ const MarketplacePage = () => {
 
 	return (
 		<div className="matomo-marketplace-install-plugins">
-			<h1>Marketplace</h1>
+			<h1>{ __( 'Marketplace', 'matomo' ) }</h1>
 
 			<p style={ { margin: '2em 0' } }>
 				{ __(

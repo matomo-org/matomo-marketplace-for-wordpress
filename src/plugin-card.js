@@ -79,7 +79,7 @@ const PluginCard = ( { plugin } ) => {
 							>
 								<div className="price">
 									{ plugin.pretty_price
-										? `${ ( __( 'From' ), 'matomo' ) } ${
+										? `${ __( 'From', 'matomo' ) } ${
 												plugin.pretty_price
 										  } / ${ plugin.price_period }`
 										: __( 'Free', 'matomo' ) }
