@@ -66,27 +66,29 @@ class MatomoMarketplaceAdmin {
 					$install_url
 				);
 
+				$unknown = __( 'Unknown', 'matomo-marketplace-for-wordpress' );
+
 				$matomo_mwp_plugins[] = array(
-					'name'               => $plugin['displayName'], // The plugin name.
-					'owner'              => $plugin['owner'],
-					'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
-					'description'        => $plugin['description'], // The plugin slug (typically the folder name).
-					'source'             => $plugin['downloadUrl'], // The plugin source.
+					'name'               => isset( $plugin['displayName'] ) ? $plugin['displayName'] : $unknown,
+					'owner'              => isset( $plugin['owner'] ) ? $plugin['owner'] : $unknown,
+					'slug'               => isset( $plugin['name'] ) ? $plugin['name'] : $unknown,
+					'description'        => isset( $plugin['description'] ) ? $plugin['description'] : $unknown,
+					'source'             => isset( $plugin['downloadUrl'] ) ? $plugin['downloadUrl'] : null, // The plugin source.
 					'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-					'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+					'version'            => isset( $plugin['latestVersion'] ) ? $plugin['latestVersion'] : null, // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
 					'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
 					'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 					'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
 					'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
-					'is_downloadable'    => $plugin['isDownloadable'],
-					'add_to_cart_url'    => $plugin['addToCartUrl'],
-					'cover_image_url'    => $plugin['coverImage'],
-					'pretty_price'       => $plugin['prettyPrice'],
-					'price_period'       => $plugin['pricePeriod'],
-					'lastUpdated'        => $plugin['lastUpdated'],
-					'numDownloads'       => $plugin['numDownloads'],
-					'createdDateTime'    => $plugin['createdDateTime'],
-					'displayName'        => $plugin['displayName'],
+					'is_downloadable'    => isset( $plugin['isDownloadable'] ) ? $plugin['isDownloadable'] : false,
+					'add_to_cart_url'    => isset( $plugin['addToCartUrl'] ) ? $plugin['addToCartUrl'] : null,
+					'cover_image_url'    => isset( $plugin['coverImage'] ) ? $plugin['coverImage'] : null,
+					'pretty_price'       => isset( $plugin['prettyPrice'] ) ? $plugin['prettyPrice'] : null,
+					'price_period'       => isset( $plugin['pricePeriod'] ) ? $plugin['pricePeriod'] : null,
+					'lastUpdated'        => isset( $plugin['lastUpdated'] ) ? $plugin['lastUpdated'] : null,
+					'numDownloads'       => isset( $plugin['numDownloads'] ) ? $plugin['numDownloads'] : 0,
+					'createdDateTime'    => isset( $plugin['createdDateTime'] ) ? $plugin['createdDateTime'] : null,
+					'displayName'        => isset( $plugin['displayName'] ) ? $plugin['displayName'] : '',
 					'installUrl'         => $install_url,
 					'isInstalled'		 => is_file( WP_PLUGIN_DIR . '/' . $plugin['name'] . '/' . $plugin['name'] . '.php' ),
 				);
