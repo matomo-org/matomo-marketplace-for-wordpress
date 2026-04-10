@@ -67,7 +67,7 @@ const MarketplacePage = () => {
 	// initialize search to URL query param if there is a value there
 	useEffect( () => {
 		const params = new URLSearchParams( document.location.search );
-		const s = params.get( 'search' ).trim();
+		const s = (params.get( 'search' ) || '').trim();
 		if ( s.length ) {
 			setSearch( s );
 		}
