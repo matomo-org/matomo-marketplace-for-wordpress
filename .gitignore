@@ -1,2 +1,10 @@
 node_modules/
+vendor/bin/
+vendor/eftec/
+vendor/gettext/
+vendor/mck89/
+vendor/symfony/
+vendor/wp-cli/
+
+
 

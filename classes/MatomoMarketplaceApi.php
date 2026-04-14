@@ -109,10 +109,19 @@ class MatomoMarketplaceApi {
 		return array();
 	}
 
-	public function get_available_plugins() {
+	/**
+	 * @param string $themesOrPlugins 'themes' or 'plugins'
+	 * @return array|array[]
+	 * @throws Exception
+	 */
+	public function get_available_plugins( $type = 'plugins', $search = '' ) {
+		if ( $type !== 'themes' && $type !== 'plugins' ) {
+			throw new InvalidArgumentException( 'Invalid argument supplied for "$type", expected "themes" or "plugins".' );
+		}
+
 		$result = $this->request_api(
-			'plugins',
-			[ 'prefer_stable' => '1', 'context' => 'wordpress' ]
+			$type,
+			[ 'prefer_stable' => '1', 'context' => 'wordpress', 'query' => $search ]
 		);
 
 		$result = ! empty( $result['plugins'] ) ? $result['plugins'] : [];
@@ -144,7 +153,13 @@ class MatomoMarketplaceApi {
 					'latestVersion'  => $plugin['latestVersion'],
 					'homeUrl'        => $host . rawurlencode( $plugin['name'] ),
 					'downloadUrl'    => $host . ltrim( $download_path, '/' ),
-					'addToCartUrl'   => isset( $variationToUse['addToCartUrl'] ) ? ( $variationToUse['addToCartUrl'] . '&wp=1' ) : null,
+					'addToCartUrl'   => isset( $variationToUse['addToCartUrl'] ) ? ( $variationToUse['addToCartUrl'] . '&wp=1&source=wordpress' ) : null,
+					'prettyPrice'    => isset( $variationToUse['prettyPrice'] ) ? $variationToUse['prettyPrice'] : null,
+					'pricePeriod'    => isset( $variationToUse['period'] ) ? $variationToUse['period'] : null,
+					'coverImage'     => $plugin['coverImage'],
+					'lastUpdated'        => $plugin['lastUpdated'],
+					'numDownloads'       => $plugin['numDownloads'],
+					'createdDateTime'    => $plugin['createdDateTime'],
 				];
 			},
 			$result

@@ -1,5 +1,8 @@
 {
   "require": {
     "yahnis-elsts/plugin-update-checker": "4.*"
+  },
+  "require-dev": {
+    "wp-cli/i18n-command": "^2.7"
   }
 }

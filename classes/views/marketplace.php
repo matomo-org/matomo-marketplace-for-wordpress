@@ -16,25 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var array $valid_tabs */
 /** @var string|bool|null $active_tab */
 /** @var \WpMatomo\Admin\Marketplace $matomoMarketplaceWpMatomo */
+/** @var bool $matomo_is_tgmpa_admin_action */
 ?>
-<style>
-	.matomo-premium-badge {
-		color: #fff;
-		background-color: #F38334;
-		border-radius: 1em;
-		display: inline-flex;
-		flex-direction: row;
-		align-items: center;
-		padding: 0 4px;
-		margin-bottom: 4px;
-	}
-</style>
-
 <div class="wrap">
-	<div id="matomo-marketplace-for-wordpress">
-		<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
-	</div>
-
 	<div id="icon-plugins" class="icon32"></div>
 	<h2 class="nav-tab-wrapper">
         <?php if (in_array('marketplace', $valid_tabs, true)) { ?>
@@ -52,33 +36,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 			   class="nav-tab <?php echo 'subscriptions' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Premium Features', 'matomo-marketplace-for-wordpress' ); ?></a>
 		<?php } ?>
 	</h2>
+
 	<?php if ( 'marketplace' === $active_tab ) {
 		$matomoMarketplaceWpMatomo->show();
+	} elseif ( ! empty( $matomo_error ) ) {
+		?>
+		<p><?php esc_html_e( 'Failed to connect to marketplace API', 'matomo-marketplace-for-wordpress' ); ?>: <?php echo esc_html( $matomo_error ); ?></p>
+		<p><?php esc_html_e( 'Please try reloading the page.', 'matomo-marketplace-for-wordpress' ); ?></p>
+		<?php
     } elseif ( 'install' === $active_tab ) {
-		$plugins = array();
+		wp_localize_script(
+			'matomo-marketplace-for-wordpress-script',
+			'matomoMarketplaceForWordpressData',
+			[
+				'pluginUrl' => plugins_url( '', MATOMO_ANALYTICS_FILE ),
+				'plugins' => $matomo_mwp_plugins,
+			]
+		);
 
-        $api = new MatomoMarketplaceApi();
-        $apiPlugins = $api->get_available_plugins();
-
-        if (!empty($apiPlugins)) {
-            foreach ($apiPlugins as $plugin) {
-                $plugins[] = array(
-                    'name'               => $plugin['displayName'], // The plugin name.
-                    'owner'              => $plugin['owner'],
-                    'slug'               => $plugin['name'], // The plugin slug (typically the folder name).
-                    'description'        => $plugin['description'], // The plugin slug (typically the folder name).
-                    'source'             => $plugin['downloadUrl'], // The plugin source.
-                    'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-                    'version'            => $plugin['latestVersion'], // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-                    'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-                    'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-                    'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
-                    'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
-					'is_downloadable'    => $plugin['isDownloadable'],
-					'add_to_cart_url'    => $plugin['addToCartUrl'],
-                );
-            }
-        }
 
 		/*
 		 * Array of configuration settings. Amend each line as needed.
@@ -106,16 +81,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			)
 		);
 
-		tgmpa( $plugins, $config );
+		if ( $matomo_is_tgmpa_admin_action ) {
+			tgmpa( $matomo_mwp_plugins, $config );
 
-        /** @var \TGM_Plugin_Activation $tgmpa */
-        $tgmpa = $GLOBALS['tgmpa'];
-        if (!empty($tgmpa->plugins)) {
-	        $tgmpa->plugins = array_filter($tgmpa->plugins, function ($plugin) {
-		        return !empty($plugin['owner']);
-	        });
-        }
-        $tgmpa->install_plugins_page();
+			$tgmpa = $GLOBALS['tgmpa'];
+			$tgmpa->install_plugins_page();
+		} else {
+			?>
+			<div id="matomo-marketplace-for-wordpress">
+				<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
+			</div>
+			<?php
+		}
 
      } elseif ( 'subscriptions' === $active_tab ) { ?>
 

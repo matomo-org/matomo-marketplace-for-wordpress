@@ -803,7 +803,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			// All plugin information will be stored in an array for processing.
 			$slug = $this->sanitize_key( urldecode( $_GET['plugin'] ) );
-
 			if ( ! isset( $this->plugins[ $slug ] ) ) {
 				return false;
 			}

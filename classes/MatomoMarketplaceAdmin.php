@@ -24,11 +24,89 @@ class MatomoMarketplaceAdmin {
 		add_filter( 'http_request_args', array( $this, 'add_authentication_if_needed'), 10, 2);
 		add_filter( 'tgmpa_table_data_items', array( $this, 'sort_plugins'), 9999999, 1);
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'rest_api_init', [ $this, 'rest_api_init' ] );
+	}
+
+	public function rest_api_init() {
+		register_rest_route(
+			'matomo-marketplace-for-wordpress/v1',
+			'/plugins',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'search_plugins_ajax' ],
+			]
+		);
+	}
+
+	public function search_plugins_ajax( \WP_REST_Request $request )
+	{
+		return $this->search_plugins( $request->get_param( 'type' ), $request->get_param( 'search' ) );
+	}
+
+	public function search_plugins( $type = 'plugins', $search = '' ) {
+		$matomo_mwp_plugins = [];
+
+		$api = new MatomoMarketplaceApi();
+		$apiPlugins = $api->get_available_plugins( $type, $search );
+
+		if (!empty($apiPlugins)) {
+			foreach ($apiPlugins as $plugin) {
+				if ( empty( $plugin['owner'] ) ) {
+					continue;
+				}
+
+				$install_url = $this->get_tgmpa_url();
+				$install_url = add_query_arg(
+					array(
+						'plugin'        => urlencode( $plugin['name'] ),
+						'tgmpa-install' => 'install-plugin',
+						'tgmpa-nonce'   => wp_create_nonce( 'tgmpa-install' ),
+						'tab'           => 'install',
+					),
+					$install_url
+				);
+
+				$unknown = __( 'Unknown', 'matomo-marketplace-for-wordpress' );
+
+				$matomo_mwp_plugins[] = array(
+					'name'               => isset( $plugin['displayName'] ) ? $plugin['displayName'] : $unknown,
+					'owner'              => isset( $plugin['owner'] ) ? $plugin['owner'] : $unknown,
+					'slug'               => isset( $plugin['name'] ) ? $plugin['name'] : $unknown,
+					'description'        => isset( $plugin['description'] ) ? $plugin['description'] : $unknown,
+					'source'             => isset( $plugin['downloadUrl'] ) ? $plugin['downloadUrl'] : null, // The plugin source.
+					'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+					'version'            => isset( $plugin['latestVersion'] ) ? $plugin['latestVersion'] : null, // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+					'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+					'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+					'external_url'       => !empty($plugin['homeUrl']) ? $plugin['homeUrl'] : '', // If set, overrides default API URL and points to an external URL.
+					'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+					'is_downloadable'    => isset( $plugin['isDownloadable'] ) ? $plugin['isDownloadable'] : false,
+					'add_to_cart_url'    => isset( $plugin['addToCartUrl'] ) ? $plugin['addToCartUrl'] : null,
+					'cover_image_url'    => isset( $plugin['coverImage'] ) ? $plugin['coverImage'] : null,
+					'pretty_price'       => isset( $plugin['prettyPrice'] ) ? $plugin['prettyPrice'] : null,
+					'price_period'       => isset( $plugin['pricePeriod'] ) ? $plugin['pricePeriod'] : null,
+					'lastUpdated'        => isset( $plugin['lastUpdated'] ) ? $plugin['lastUpdated'] : null,
+					'numDownloads'       => isset( $plugin['numDownloads'] ) ? $plugin['numDownloads'] : 0,
+					'createdDateTime'    => isset( $plugin['createdDateTime'] ) ? $plugin['createdDateTime'] : null,
+					'displayName'        => isset( $plugin['displayName'] ) ? $plugin['displayName'] : '',
+					'installUrl'         => $install_url,
+					'isInstalled'		 => is_file( WP_PLUGIN_DIR . '/' . $plugin['name'] . '/' . $plugin['name'] . '.php' ),
+				);
+			}
+		}
+
+		return $matomo_mwp_plugins;
 	}
 
 	public function admin_enqueue_scripts( $admin_page )
 	{
-		if ( 'matomo-analytics_page_' . MATOMO_MARKETPLACE_SUBMENU_SLUG !== $admin_page ) {
+		if (
+			'matomo-analytics_page_' . MATOMO_MARKETPLACE_SUBMENU_SLUG !== $admin_page
+			&& (
+				empty( $_REQUEST['tab'] )
+				|| 'tab' !== $_REQUEST['tab']
+			)
+		) {
 			return;
 		}
 
@@ -46,6 +124,24 @@ class MatomoMarketplaceAdmin {
 			$asset['dependencies'],
 			$asset['version'],
 			[ 'in_footer' => true ]
+		);
+
+		wp_enqueue_style(
+			'matomo-marketplace-for-wordpress-style',
+			plugins_url( 'build/index.css', MATOMO_MARKETPLACE_ANALYTICS_FILE ),
+			array_filter(
+				$asset['dependencies'],
+				function ( $style ) {
+					return wp_style_is( $style, 'registered' );
+				}
+			),
+			$asset['version']
+    	);
+
+		wp_set_script_translations(
+			'matomo-marketplace-for-wordpress-script',
+			'matomo',
+			plugin_dir_path( __FILE__ ) . 'languages'
 		);
 	}
 
@@ -182,7 +278,11 @@ class MatomoMarketplaceAdmin {
 			$active_tab = $_GET['tab'];
 		}
 
-		if ($this->is_tgmpa_action() && in_array('install', $valid_tabs)) {
+		if (
+			$this->is_tgmpa_action()
+			&& in_array('install', $valid_tabs)
+			&& $active_tab !== 'subscriptions'
+		) {
 			// we need to force the install tab... to guarantee tgmpa works... as it is using the slug but can't add
 			// another URL parameter automatically like `&tab=install`. If we didn't force the tab, then the tgmpa
 			// code wouldn't be executed and it would not install or update a plugin
@@ -194,23 +294,55 @@ class MatomoMarketplaceAdmin {
 
 		$matomo_logo_big = plugins_url( 'assets/img/logo-big.png', MATOMO_MARKETPLACE_ANALYTICS_FILE );
 
+		$matomo_is_tgmpa_admin_action = $this->is_tgmpa_action();
+
+		try {
+			$matomo_mwp_plugins = $this->search_plugins();
+		} catch ( \Exception $e ) {
+			$matomo_error = $e->getMessage();
+			error_log( 'Failed to connect to Matomo Marketplace API: ' . $matomo_error );
+		}
+
 		include dirname( __FILE__ ) . '/views/marketplace.php';
 	}
 
 	private function is_tgmpa_action()
 	{
-		if (!empty($_POST)
-		    || isset($_GET['tgmpa-install'])
-		    || isset($_GET['tgmpa-update'])
-		    || isset($_GET['plugin_status'])
-		    || isset($_GET['tgmpa-nonce'])
-		    || isset($_GET['plugin'])
-		    || isset($_GET['_wpnonce'])
-		    || isset($_GET['nonce'])) {
-			return true;
+		$tgmpa_params = [
+			'tgmpa-install',
+			'tgmpa-update',
+			'plugin_status',
+			'tgmpa-nonce',
+			'plugin',
+			'_wpnonce',
+			'nonce',
+		];
+
+		foreach ( $tgmpa_params as $param ) {
+			if (
+				isset( $_GET[ $param ] )
+				|| isset( $_POST[ $param ] )
+			) {
+				return true;
+			}
 		}
 
 		return false;
 	}
 
+	private function get_tgmpa_url() {
+		static $url;
+
+		if ( ! isset( $url ) ) {
+			$parent = 'admin.php';
+			$url = add_query_arg(
+				array(
+					'page' => urlencode( 'matomo-marketplace' ),
+				),
+				self_admin_url( $parent )
+			);
+		}
+
+		return $url;
+	}
 }
