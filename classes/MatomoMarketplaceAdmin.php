@@ -32,8 +32,9 @@ class MatomoMarketplaceAdmin {
 			'matomo-marketplace-for-wordpress/v1',
 			'/plugins',
 			[
-				'methods'  => 'GET',
-				'callback' => [ $this, 'search_plugins_ajax' ],
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'search_plugins_ajax' ],
+				'permission_callback' => '__return_true',
 			]
 		);
 	}

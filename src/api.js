@@ -12,6 +12,12 @@ export function searchPlugins( { type, search } ) {
 		type,
 		search,
 	} );
+  console.log({ path });
 
-	return apiFetch( { path } );
+  try {
+	  return apiFetch( { path } );
+  } catch ( e ) {
+    console.log(e.stack || e.message || e);
+    throw e;
+  }
 }
