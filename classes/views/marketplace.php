@@ -88,7 +88,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$tgmpa->install_plugins_page();
 		} else {
 			?>
-			<div id="matomo-marketplace-for-wordpress">
+			<div
+				id="matomo-marketplace-for-wordpress"
+				data-bulk-install-nonce="<?php echo esc_attr( wp_create_nonce( 'tgmpa-bulk-install' ) ); ?>"
+			>
 				<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
 			</div>
 			<?php
