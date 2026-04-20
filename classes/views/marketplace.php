@@ -91,6 +91,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div
 				id="matomo-marketplace-for-wordpress"
 				data-bulk-install-nonce="<?php echo esc_attr( wp_create_nonce( 'tgmpa-bulk-install' ) ); ?>"
+				data-bulk-activate-nonce="<?php echo esc_attr( wp_create_nonce( 'tgmpa-bulk-activate' ) ); ?>"
 			>
 				<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
 			</div>
