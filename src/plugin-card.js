@@ -61,7 +61,7 @@ const PluginCard = ( { plugin } ) => {
 	const { pluginUrl } = window.matomoMarketplaceForWordpressData;
 
 	return (
-		<Card className="matomo-plugin-card" data-plugin-slug={ plugin.slug }>
+		<Card className="matomo-plugin-card" data-plugin-slug={ plugin.slug } data-developer={ plugin.owner }>
 			<React.Fragment key=".0">
 				<Flex direction="column">
 					<CardMedia>
