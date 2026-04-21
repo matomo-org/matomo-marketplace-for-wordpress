@@ -12,10 +12,12 @@ export function searchPlugins( { type, search } ) {
 		type,
 		search,
 	} );
-  console.log({ path });
+  console.log(path);
 
   try {
-	  return apiFetch( { path } );
+	  const result = apiFetch( { path } );
+    console.log(JSON.stringify(result));
+    return result;
   } catch ( e ) {
     console.log(e.stack || e.message || e);
     throw e;
