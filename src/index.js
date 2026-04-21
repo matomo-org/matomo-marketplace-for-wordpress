@@ -20,6 +20,8 @@ function isSortAscending( sort ) {
 let currentQuery;
 
 const searchUsingFilter = async ( setPlugins, { sort, search } ) => {
+  console.log('searchUsingFilter');
+
 	currentQuery = {
 		sort,
 		search,
@@ -56,6 +58,7 @@ const searchUsingFilter = async ( setPlugins, { sort, search } ) => {
 };
 
 const MarketplacePage = () => {
+  console.log('marketplace page');
 	const [ plugins, setPlugins ] = useState( null );
 	const [ sort, setSort ] = useState( 'lastUpdated' );
 	const [ search, setSearch ] = useState( '' );
@@ -74,6 +77,7 @@ const MarketplacePage = () => {
 	} );
 
 	useEffect( () => {
+    console.log('searching effect');
 		searchUsingFilterDebounced( { sort, search } );
 		return () => {
 			searchUsingFilterDebounced.cancel();
