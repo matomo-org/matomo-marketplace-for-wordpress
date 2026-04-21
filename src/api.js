@@ -12,14 +12,6 @@ export async function searchPlugins( { type, search } ) {
 		type,
 		search,
 	} );
-  console.log(path);
 
-  try {
-	  const result = await apiFetch( { path } );
-    console.log(JSON.stringify(result));
-    return result;
-  } catch ( e ) {
-    console.log(e.stack || e.message || e);
-    throw e;
-  }
+  return await apiFetch( { path } );
 }
