@@ -43,7 +43,9 @@ class MatomoMarketplaceAdmin {
 	{
 		error_log( 'search_plugins_ajax' );
 		try {
-			return $this->search_plugins($request->get_param('type'), $request->get_param('search'));
+			$result = $this->search_plugins($request->get_param('type'), $request->get_param('search'));
+			error_log( (new \Exception())->getTraceAsString() );
+			return $result;
 		} catch (\Throwable $ex) {
 			error_log("search_plugins_ajax error: " .$ex->getMessage()."\n".$ex->getTraceAsString());
 			throw $ex;

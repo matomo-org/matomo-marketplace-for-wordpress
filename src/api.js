@@ -7,7 +7,7 @@
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
-export function searchPlugins( { type, search } ) {
+export async function searchPlugins( { type, search } ) {
 	const path = addQueryArgs( '/matomo-marketplace-for-wordpress/v1/plugins', {
 		type,
 		search,
@@ -15,7 +15,7 @@ export function searchPlugins( { type, search } ) {
   console.log(path);
 
   try {
-	  const result = apiFetch( { path } );
+	  const result = await apiFetch( { path } );
     console.log(JSON.stringify(result));
     return result;
   } catch ( e ) {
