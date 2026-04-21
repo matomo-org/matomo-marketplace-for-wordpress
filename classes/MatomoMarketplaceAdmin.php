@@ -39,17 +39,8 @@ class MatomoMarketplaceAdmin {
 		);
 	}
 
-	public function search_plugins_ajax( \WP_REST_Request $request )
-	{
-		error_log( 'search_plugins_ajax' );
-		try {
-			$result = $this->search_plugins($request->get_param('type'), $request->get_param('search'));
-			error_log( (new \Exception())->getTraceAsString() );
-			return $result;
-		} catch (\Throwable $ex) {
-			error_log("search_plugins_ajax error: " .$ex->getMessage()."\n".$ex->getTraceAsString());
-			throw $ex;
-		}
+	public function search_plugins_ajax( \WP_REST_Request $request ) {
+		return $this->search_plugins( $request->get_param( 'type' ), $request->get_param( 'search' ) );
 	}
 
 	public function search_plugins( $type = 'plugins', $search = '' ) {
