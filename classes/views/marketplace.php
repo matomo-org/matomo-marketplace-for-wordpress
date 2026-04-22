@@ -144,7 +144,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				);
 				?>
 			</p>
-			<table class="widefat">
+			<table class="widefat" id="matomo-licenses">
 				<thead>
 				<tr>
 					<th><?php esc_html_e( 'Name', 'matomo-marketplace-for-wordpress' ); ?></th>
