@@ -21,8 +21,8 @@ class MatomoMarketplaceApi {
 
 	public function is_valid_api_key( $license_key ) {
 		$looks_valid_format = ctype_alnum( $license_key )
-							  && strlen( $license_key ) >= 40
-							  && strlen( $license_key ) <= 80;
+			&& strlen( $license_key ) >= 40
+			&& strlen( $license_key ) <= 80;
 		if ( ! $looks_valid_format ) {
 			return false;
 		}
@@ -133,6 +133,20 @@ class MatomoMarketplaceApi {
 			}
 		);
 
+		$result = array_map(
+			function ( $plugin ) {
+				return $this->remove_incompatible_versions( $plugin );
+			},
+			$result
+		);
+
+		$result = array_filter(
+			$result,
+			function ( $plugin ) {
+				return ! empty( $plugin['versions'] );
+			}
+		);
+
 		$currency = $this->get_currency_based_on_timezone();
 
 		$host = 'https://' . parse_url( $this->endpoint, PHP_URL_HOST ) . '/';
@@ -229,5 +243,57 @@ class MatomoMarketplaceApi {
 			}
 		}
 		return null;
+	}
+
+	private function remove_incompatible_versions( $plugin ) {
+		foreach ( $plugin['versions'] as $index => $version ) {
+			if ( empty( $version['requires'] ) ) {
+				continue;
+			}
+
+			foreach ( $version['requires'] as $require => $require_version ) {
+				if (
+					$require === 'php'
+					&& $this->matches_version_requirement( $require_version, PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION )
+				) {
+					continue;
+				}
+
+				if (
+					$require === 'matomo'
+					&& class_exists( \Piwik\Version::class )
+					&& $this->matches_version_requirement( $require_version, \Piwik\Version::VERSION )
+				) {
+					continue;
+				}
+
+				// doesn't match
+				unset( $plugin['versions'][ $index ] );
+				break;
+			}
+		}
+
+		return $plugin;
+	}
+
+	private function matches_version_requirement( $require_version, $version ) {
+		$version_match_operators = [ '<=', '>=', '==', '!=', '<', '>' ];
+		$version_match_regex     = array_map( 'preg_quote', $version_match_operators );
+		$version_match_regex     = '/^(' . implode( '|', $version_match_regex ) . ')(.*)/';
+
+		$parts = explode( ',', $require_version );
+		foreach ( $parts as $part ) {
+			if ( ! preg_match( $version_match_regex, $part, $matches ) ) {
+				continue;
+			}
+
+			$operator        = $matches[1];
+			$version_operand = $matches[2];
+
+			if ( ! version_compare( $version, $version_operand, $operator ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
