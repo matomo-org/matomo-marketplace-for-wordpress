@@ -15,7 +15,7 @@
     "format:src": "wp-scripts format ./src",
     "i18n:make-pot": "php vendor/wp-cli/wp-cli/php/boot-fs.php i18n make-pot . languages/matomo.pot --domain=matomo --exclude=node_modules,vendor,dist",
     "i18n:make-json": "php vendor/wp-cli/wp-cli/php/boot-fs.php i18n make-json languages",
-    "release:build": "git archive --format zip --prefix matomo-for-wordpress-marketplace/ -o \"matomo-for-wordpress-marketplace.${RELEASE_NAME:-$(git rev-parse --abbrev-ref HEAD)}.zip\" HEAD"
+    "release:build": "git archive --format zip --prefix matomo-marketplace-for-wordpress/ -o \"matomo-marketplace-for-wordpress.${RELEASE_NAME:-$(git rev-parse --abbrev-ref HEAD)}.zip\" HEAD"
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.2.1",

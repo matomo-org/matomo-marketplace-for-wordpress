@@ -7,11 +7,11 @@
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
-export function searchPlugins( { type, search } ) {
+export async function searchPlugins( { type, search } ) {
 	const path = addQueryArgs( '/matomo-marketplace-for-wordpress/v1/plugins', {
 		type,
 		search,
 	} );
 
-	return apiFetch( { path } );
+  return await apiFetch( { path } );
 }

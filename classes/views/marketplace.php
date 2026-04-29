@@ -88,7 +88,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$tgmpa->install_plugins_page();
 		} else {
 			?>
-			<div id="matomo-marketplace-for-wordpress">
+			<div
+				id="matomo-marketplace-for-wordpress"
+				data-bulk-plugins-nonce="<?php echo esc_attr( wp_create_nonce( 'bulk-plugins' ) ); ?>"
+			>
 				<?php esc_html_e( 'Loading', 'matomo-marketplace-for-wordpress' ); ?>...
 			</div>
 			<?php
@@ -141,7 +144,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				);
 				?>
 			</p>
-			<table class="widefat">
+			<table class="widefat" id="matomo-licenses">
 				<thead>
 				<tr>
 					<th><?php esc_html_e( 'Name', 'matomo-marketplace-for-wordpress' ); ?></th>

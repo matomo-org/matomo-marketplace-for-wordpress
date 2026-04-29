@@ -210,7 +210,7 @@ class MatomoMarketplaceApi {
 			$this->endpoint . $path,
 			array(
 				'method'      => 'POST',
-				'timeout'     => 30,
+				'timeout'     => 60,
 				'redirection' => 2,
 				'body'        => $request,
 			)

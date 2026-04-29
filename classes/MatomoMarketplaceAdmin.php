@@ -32,14 +32,14 @@ class MatomoMarketplaceAdmin {
 			'matomo-marketplace-for-wordpress/v1',
 			'/plugins',
 			[
-				'methods'  => 'GET',
-				'callback' => [ $this, 'search_plugins_ajax' ],
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'search_plugins_rest' ],
+				'permission_callback' => '__return_true',
 			]
 		);
 	}
 
-	public function search_plugins_ajax( \WP_REST_Request $request )
-	{
+	public function search_plugins_rest( \WP_REST_Request $request ) {
 		return $this->search_plugins( $request->get_param( 'type' ), $request->get_param( 'search' ) );
 	}
 
