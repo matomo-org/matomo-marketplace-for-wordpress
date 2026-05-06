@@ -1,3 +1,7 @@
+1.1.0
+- Bug fix: In install plugins tab, filter out plugins whose requirements are not met by the current system.
+- Redesign install plugins page.
+
 1.0.14
 - In Install Plugins page display all plugins including premium plugins that cannot be downloaded yet.
 - Redesign subscriptions page when no license is set.
