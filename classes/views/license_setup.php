@@ -56,6 +56,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	.matomo-marketplace-license-setup-logo img {
 		width: 64px;
+		border-radius: 50%;
 	}
 
 	#license-key-input {
