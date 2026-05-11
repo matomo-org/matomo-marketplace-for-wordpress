@@ -116,7 +116,7 @@ const PluginCard = ( { plugin } ) => {
 									</div>
 									<img
 										className="matomo-badge matomo-badge-bottom"
-										src={ `${ pluginUrl }/app/plugins/Marketplace/images/matomo-badge.png` }
+										src={ `${ pluginUrl }/assets/img/logo.png` }
 										aria-label="Matomo plugin"
 										alt=""
 									/>
