@@ -231,11 +231,9 @@
 
   .matomo-badge {
     width: 64px;
-    height: 40px;
 
     @media (max-width: 480px), (min-width: 601px) and (max-width: 767px), (min-width: 992px) and (max-width: 1200px) {
       width: 48px;
-      height: 32px;
     }
   }
 
