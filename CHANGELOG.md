@@ -1,3 +1,6 @@
+1.1.1
+- Update Matomo logo for rebrand.
+
 1.1.0
 - Bug fix: In install plugins tab, filter out plugins whose requirements are not met by the current system.
 - Redesign install plugins page.
