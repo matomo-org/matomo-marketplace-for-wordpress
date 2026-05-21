@@ -24,12 +24,12 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php if (in_array('marketplace', $valid_tabs, true)) { ?>
             <a href="?page=matomo-marketplace&tab=marketplace"
                class="nav-tab <?php echo ($active_tab === 'marketplace') ? 'nav-tab-active' : ''; ?>"
-            ><?php esc_html_e( 'Overview', 'matomo-marketplace-for-wordpress' ); ?></a>
+            ><?php esc_html_e( 'Welcome', 'matomo-marketplace-for-wordpress' ); ?></a>
         <?php }?>
 		<?php if (in_array('install', $valid_tabs, true)) { ?>
 		    <a href="?page=matomo-marketplace&tab=install"
                class="nav-tab <?php echo ( $active_tab === 'install' ) ? 'nav-tab-active' : ''; ?>"
-		    ><?php esc_html_e( 'Install Plugins', 'matomo-marketplace-for-wordpress' ); ?></a>
+		    ><?php esc_html_e( 'Marketplace', 'matomo-marketplace-for-wordpress' ); ?></a>
 		<?php }?>
 		<?php if ( in_array('subscriptions', $valid_tabs, true ) ) { ?>
 			<a href="?page=matomo-marketplace&tab=subscriptions"
@@ -37,9 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php } ?>
 	</h2>
 
-	<?php if ( 'marketplace' === $active_tab ) {
-		$matomoMarketplaceWpMatomo->show();
-	} elseif ( ! empty( $matomo_error ) ) {
+	<?php if ( ! empty( $matomo_error ) ) {
 		?>
 		<p><?php esc_html_e( 'Failed to connect to marketplace API', 'matomo-marketplace-for-wordpress' ); ?>: <?php echo esc_html( $matomo_error ); ?></p>
 		<p><?php esc_html_e( 'Please try reloading the page.', 'matomo-marketplace-for-wordpress' ); ?></p>

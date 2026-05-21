@@ -265,14 +265,6 @@ class MatomoMarketplaceAdmin {
 			$valid_tabs[] = 'subscriptions';
 		}
 
-		$matomoMarketplaceWpMatomo = null;
-		if (class_exists('\WpMatomo\Admin\Marketplace')
-		    && current_user_can('view_matomo')) {
-			$matomoMarketplaceWpMatomo = new \WpMatomo\Admin\Marketplace( \WpMatomo::$settings );
-			$active_tab = 'marketplace'; // default active tab changes to marketplace...
-			$valid_tabs[] = 'marketplace';
-		}
-
 		if ( isset( $_GET['tab'] )
 		     && in_array( $_GET['tab'], $valid_tabs, true ) ) {
 			$active_tab = $_GET['tab'];
