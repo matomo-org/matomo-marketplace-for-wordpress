@@ -1,3 +1,7 @@
+1.2.0
+- Redesign license setup form.
+- Rename marketplace tabs.
+
 1.1.1
 - Update Matomo logo for rebrand.
 
