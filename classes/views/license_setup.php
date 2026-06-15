@@ -137,7 +137,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php
 if ( class_exists( PopularFeatures::class ) ) {
-	(new PopularFeatures())->show();
+	( new PopularFeatures( false ) )->show();
 }
 ?>
 
