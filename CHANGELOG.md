@@ -1,3 +1,6 @@
+1.2.1
+- Hide free plugins in subscriptions tab "Popular premium features" section.
+
 1.2.0
 - Redesign license setup form.
 - Rename marketplace tabs.
