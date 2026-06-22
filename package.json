@@ -19,9 +19,9 @@
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.2.1",
-    "@wordpress/api-fetch": "^7.33.0",
-    "@wordpress/components": "^30.5.0",
-    "@wordpress/scripts": "^32.1.0"
+    "@wordpress/api-fetch": "^7.48.1",
+    "@wordpress/components": "^35.0.1",
+    "@wordpress/scripts": "^32.4.1"
   },
   "pre-commit": [
     "format:src",
