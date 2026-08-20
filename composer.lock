@@ -274,16 +274,16 @@
         },
         {
             "name": "mck89/peast",
-            "version": "v1.17.5",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mck89/peast.git",
-                "reference": "e19a8bd896b7f04941a38fd38a140c9a6531c84f"
+                "reference": "9c211ef67a0cf7511f864b6d390fe5939a837d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/e19a8bd896b7f04941a38fd38a140c9a6531c84f",
-                "reference": "e19a8bd896b7f04941a38fd38a140c9a6531c84f",
+                "url": "https://api.github.com/repos/mck89/peast/zipball/9c211ef67a0cf7511f864b6d390fe5939a837d05",
+                "reference": "9c211ef67a0cf7511f864b6d390fe5939a837d05",
                 "shasum": ""
             },
             "require": {
@@ -296,7 +296,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17.5-dev"
+                    "dev-master": "1.18.0-dev"
                 }
             },
             "autoload": {
@@ -317,26 +317,26 @@
             "description": "Peast is PHP library that generates AST for JavaScript code",
             "support": {
                 "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.17.5"
+                "source": "https://github.com/mck89/peast/tree/v1.18.0"
             },
-            "time": "2026-03-15T10:47:07+00:00"
+            "time": "2026-08-19T09:36:10+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v8.0.8",
+            "version": "v8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "8da41214757b87d97f181e3d14a4179286151007"
+                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/8da41214757b87d97f181e3d14a4179286151007",
-                "reference": "8da41214757b87d97f181e3d14a4179286151007",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
+                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4"
+                "php": ">=8.4.1"
             },
             "require-dev": {
                 "symfony/filesystem": "^7.4|^8.0"
@@ -367,7 +367,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.0.8"
+                "source": "https://github.com/symfony/finder/tree/v8.1.1"
             },
             "funding": [
                 {
@@ -387,7 +387,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-30T15:14:47+00:00"
+            "time": "2026-06-27T09:05:56+00:00"
         },
         {
             "name": "wp-cli/i18n-command",
@@ -702,5 +702,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
