@@ -183,7 +183,7 @@ class MatomoMarketplaceApi {
 			$result
 		);
 
-		return $result;
+		return array_values( $result );
 	}
 
 	private function is_wordpress_compatible( $plugin ) {
