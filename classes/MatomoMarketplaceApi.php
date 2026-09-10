@@ -68,8 +68,12 @@ class MatomoMarketplaceApi {
 		// we do not want to bootstrap entire Matomo here just to be on the safe side and not break anything
 		// when installing/updating etc
 		include_once plugin_dir_path(MATOMO_ANALYTICS_FILE) . 'app/core/Version.php';
-		$num_blogs          = 1;
-		if ( function_exists( 'get_blog_count' ) ) {
+		$num_blogs = 1;
+		if (
+			function_exists( 'get_blog_count' )
+			&& function_exists( 'is_plugin_active_for_network' )
+			&& is_plugin_active_for_network( 'matomo/matomo.php' )
+		) {
 			$num_blogs = get_blog_count();
 		}
 		$params = array(
