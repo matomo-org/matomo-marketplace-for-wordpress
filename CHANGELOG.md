@@ -1,3 +1,6 @@
+1.2.2
+- Allow using premium plugins when on a multisite WP with non-network enabled Matomo for WordPress.
+
 1.2.1
 - Hide free plugins in subscriptions tab "Popular premium features" section.
 
