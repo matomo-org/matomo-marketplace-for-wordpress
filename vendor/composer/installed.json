@@ -225,17 +225,17 @@
         },
         {
             "name": "mck89/peast",
-            "version": "v1.18.0",
-            "version_normalized": "1.18.0.0",
+            "version": "v1.18.1",
+            "version_normalized": "1.18.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mck89/peast.git",
-                "reference": "9c211ef67a0cf7511f864b6d390fe5939a837d05"
+                "reference": "70881e535f519aba943b6200411d2888d6c50dec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/9c211ef67a0cf7511f864b6d390fe5939a837d05",
-                "reference": "9c211ef67a0cf7511f864b6d390fe5939a837d05",
+                "url": "https://api.github.com/repos/mck89/peast/zipball/70881e535f519aba943b6200411d2888d6c50dec",
+                "reference": "70881e535f519aba943b6200411d2888d6c50dec",
                 "shasum": ""
             },
             "require": {
@@ -243,13 +243,14 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.0"
             },
-            "time": "2026-08-19T09:36:10+00:00",
+            "time": "2026-09-15T06:27:15+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.18.0-dev"
+                    "dev-master": "1.18.1-dev"
                 }
             },
             "installation-source": "dist",
@@ -271,23 +272,23 @@
             "description": "Peast is PHP library that generates AST for JavaScript code",
             "support": {
                 "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.18.0"
+                "source": "https://github.com/mck89/peast/tree/v1.18.1"
             },
             "install-path": "../mck89/peast"
         },
         {
             "name": "symfony/finder",
-            "version": "v8.1.1",
-            "version_normalized": "8.1.1.0",
+            "version": "v8.1.7",
+            "version_normalized": "8.1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531"
+                "reference": "4fbe46a3eb64abf8a57f0364075b91f4a233e062"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
-                "reference": "e2989e762c70f9490fa3a00a0ac0fae5aa97a531",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/4fbe46a3eb64abf8a57f0364075b91f4a233e062",
+                "reference": "4fbe46a3eb64abf8a57f0364075b91f4a233e062",
                 "shasum": ""
             },
             "require": {
@@ -296,7 +297,7 @@
             "require-dev": {
                 "symfony/filesystem": "^7.4|^8.0"
             },
-            "time": "2026-06-27T09:05:56+00:00",
+            "time": "2026-09-10T19:14:39+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -324,7 +325,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.1.1"
+                "source": "https://github.com/symfony/finder/tree/v8.1.7"
             },
             "funding": [
                 {
