@@ -300,21 +300,25 @@ class MatomoMarketplaceAdmin {
 
 	private function is_tgmpa_action()
 	{
-		$tgmpa_params = [
-			'tgmpa-install',
-			'tgmpa-update',
-			'plugin_status',
-			'tgmpa-nonce',
-			'plugin',
-			'_wpnonce',
-			'nonce',
-		];
+		// TGMPA links to its list views with one of these known status values.
+		// Do not switch to its legacy renderer just because a generic parameter
+		// such as `plugin`, `nonce`, or `tgmpa-nonce` is present.
+		$valid_statuses = [ 'install', 'update', 'activate' ];
+		foreach ( [ $_GET, $_POST ] as $request ) {
+			if ( isset( $request['plugin_status'] ) && is_string( $request['plugin_status'] )
+				&& in_array( sanitize_key( wp_unslash( $request['plugin_status'] ) ), $valid_statuses, true ) ) {
+				return true;
+			}
+		}
 
-		foreach ( $tgmpa_params as $param ) {
-			if (
-				isset( $_GET[ $param ] )
-				|| isset( $_POST[ $param ] )
-			) {
+		$valid_actions = [
+			'tgmpa-install'  => 'install-plugin',
+			'tgmpa-update'   => 'update-plugin',
+			'tgmpa-activate' => 'activate-plugin',
+		];
+		foreach ( $valid_actions as $parameter => $action ) {
+			if ( isset( $_GET[ $parameter ] ) && is_string( $_GET[ $parameter ] )
+				&& $action === wp_unslash( $_GET[ $parameter ] ) ) {
 				return true;
 			}
 		}
