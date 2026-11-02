@@ -14,8 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class MatomoMarketplaceTgmpa {
 
 	public function customise_table_data ($table_data, $plugin) {
-		$table_data['type'] = $plugin['owner'];
-		$table_data['source'] = $plugin['description'];
+		// These values come from Marketplace publisher metadata and TGMPA's
+		// default column renderer does not escape them.
+		$table_data['type'] = esc_html( $plugin['owner'] );
+		$table_data['source'] = esc_html( $plugin['description'] );
 		return $table_data;
 	}
 
