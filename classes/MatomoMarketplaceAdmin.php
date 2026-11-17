@@ -309,10 +309,21 @@ class MatomoMarketplaceAdmin {
 		// TGMPA links to its list views with one of these known status values.
 		// Do not switch to its legacy renderer just because a generic parameter
 		// such as `plugin`, `nonce`, or `tgmpa-nonce` is present.
-		$valid_statuses = [ 'install', 'update', 'activate' ];
+		$valid_statuses = [ 'all', 'install', 'update', 'activate' ];
 		foreach ( [ $_GET, $_POST ] as $request ) {
 			if ( isset( $request['plugin_status'] ) && is_string( $request['plugin_status'] )
 				&& in_array( sanitize_key( wp_unslash( $request['plugin_status'] ) ), $valid_statuses, true ) ) {
+				return true;
+			}
+		}
+
+		// TGMPA posts these specific action names when processing bulk actions.
+		// They also identify the request when filesystem credentials are needed
+		// and the form no longer includes the original plugin_status query arg.
+		$bulk_actions = [ 'tgmpa-bulk-install', 'tgmpa-bulk-update', 'tgmpa-bulk-activate' ];
+		foreach ( [ 'action', 'action2' ] as $key ) {
+			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] )
+				&& in_array( wp_unslash( $_POST[ $key ] ), $bulk_actions, true ) ) {
 				return true;
 			}
 		}
