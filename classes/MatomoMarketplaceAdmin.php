@@ -34,9 +34,15 @@ class MatomoMarketplaceAdmin {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'search_plugins_rest' ],
-				'permission_callback' => '__return_true',
+				'permission_callback' => [ $this, 'can_view_marketplace' ],
 			]
 		);
+	}
+
+	public function can_view_marketplace() {
+		$capability = $this->is_multisite() ? 'superuser_matomo' : 'view_matomo';
+
+		return current_user_can( $capability );
 	}
 
 	public function search_plugins_rest( \WP_REST_Request $request ) {
