@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => 'dev-update-dependencies',
-        'version' => 'dev-update-dependencies',
-        'reference' => '91aa6c00603fd8ae2a724ebe368e622300a65216',
+        'pretty_version' => 'dev-AS-680-route',
+        'version' => 'dev-AS-680-route',
+        'reference' => '9d2b1e5d42142e9fa566ed51765742c05c77e4f8',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-update-dependencies',
-            'version' => 'dev-update-dependencies',
-            'reference' => '91aa6c00603fd8ae2a724ebe368e622300a65216',
+            'pretty_version' => 'dev-AS-680-route',
+            'version' => 'dev-AS-680-route',
+            'reference' => '9d2b1e5d42142e9fa566ed51765742c05c77e4f8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -62,9 +62,9 @@
             ),
         ),
         'symfony/finder' => array(
-            'pretty_version' => 'v8.1.7',
-            'version' => '8.1.7.0',
-            'reference' => '4fbe46a3eb64abf8a57f0364075b91f4a233e062',
+            'pretty_version' => 'v7.4.23',
+            'version' => '7.4.23.0',
+            'reference' => 'c723f990aefe8c1053b18374faf4231eba84f518',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/finder',
             'aliases' => array(),
@@ -116,9 +116,9 @@
             'dev_requirement' => true,
         ),
         'yahnis-elsts/plugin-update-checker' => array(
-            'pretty_version' => 'v4.13',
-            'version' => '4.13.0.0',
-            'reference' => '6eb27a6911e0e0880d09e5b11f577d3f688f7da7',
+            'pretty_version' => 'v6.0',
+            'version' => '6.0.0.0',
+            'reference' => 'bb71d4eaf1e83b645d5ae368eb4f2f6986752b5d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../yahnis-elsts/plugin-update-checker',
             'aliases' => array(),
