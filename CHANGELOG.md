@@ -1,3 +1,6 @@
+1.2.3
+- Require PHP 7.4 and update Plugin Update Checker to 6.0.
+
 1.2.2
 - Allow using premium plugins when on a multisite WP with non-network enabled Matomo for WordPress.
 

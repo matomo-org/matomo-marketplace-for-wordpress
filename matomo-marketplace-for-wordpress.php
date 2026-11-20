@@ -4,7 +4,8 @@
  * Description: Keep plugins from the Matomo Marketplace up to date in your WordPress with the convenience of a click. Get notified on new updates.
  * Author: Matomo
  * Author URI: https://matomo.org
- * Version: 1.2.2
+ * Version: 1.2.3
+ * Requires PHP: 7.4
  *
  * Matomo - free/libre analytics platform
  *
@@ -50,7 +51,7 @@ require_once 'libs/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php';
 
 add_action('init', function () {
 
-	Puc_v4_Factory::buildUpdateChecker(
+	\YahnisElsts\PluginUpdateChecker\v6\PucFactory::buildUpdateChecker(
 		'https://builds.matomo.org/matomo-marketplace-for-wordpress.json',
 		__FILE__,
 		'matomo-marketplace-for-wordpress'
@@ -73,7 +74,7 @@ add_action('init', function () {
 
 		$update_check_url = $api->make_update_check_url($plugin_name);
 
-		\Puc_v4_Factory::buildUpdateChecker(
+		\YahnisElsts\PluginUpdateChecker\v6\PucFactory::buildUpdateChecker(
 			$update_check_url,
 			$plugin_file,
 			$plugin_name
